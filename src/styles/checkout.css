@@ -4,11 +4,10 @@
    ========================================= 
 */
 
-/* Soft Sand Background - Consistent with Dune theme */
-body.light-page {
-    background: #fdfaf2 !important; /* Soft sand beige */
+.checkout-page {
+    background: #fdfaf2; /* Soft sand beige */
+    min-height: 100vh;
     color: #333;
-    background-image: none !important;
 }
 
 .checkout-container {
