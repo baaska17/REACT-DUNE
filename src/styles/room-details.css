@@ -8,28 +8,21 @@
 :root {
     --primary: #C5A059;
     --primary-h: #a8874a;
-    --bg-dark: #1a1a1a;
     --white: #ffffff;
-    --dark: #333333;
+    --dark: #1a1a1a;
     --muted: #666666;
-    --glass: rgba(229, 224, 216, 0.9);
-    --nav-active: #E5E0D8;
-
-    --page-bg: #f7f4ef;
-    --card-bg: #ffffff;
-    --soft-bg: #f1ebe2;
-    --soft-border: #e2d8c8;
-    --text-main: #2f2a24;
-    --text-soft: #6f6558;
-    --success-soft: #efe5d3;
-
-    --r-sm: 0.25rem;
+    --page-bg: #ffffff; /* Changed to white as requested */
+    --soft-bg: #f9f9f9;
+    --soft-border: #eeeeee;
+    --text-main: #1a1a1a;
+    --text-soft: #555555;
+    
     --r-md: 0.75rem;
-    --r-lg: 1.5625rem;
-    --r-xl: 1.875rem;
+    --r-lg: 1.2rem;
+    --r-xl: 2rem;
     --r-pill: 3.125rem;
-    --max-w: 75rem;
-    --shadow-soft: 0 0.75rem 1.875rem rgba(0, 0, 0, 0.08);
+    --max-w: 1200px;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* 
@@ -39,339 +32,262 @@
 */
 .room-detail-page {
     background: var(--page-bg);
-    background-image: none;
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
+    min-height: 100vh;
 }
 
 .room-details-main {
     padding-bottom: 5rem;
 }
 
-.room-detail-page .container {
-    max-width: var(--max-w);
-    margin: 0 auto;
-}
-
 /* 
    =========================================
-   3. GALLERY (Fixed Equal Sizes)
+   3. GALLERY (1 Large, 2 Small)
    ========================================= 
 */
 .room-gallery-section {
-    padding: 1.75rem 1.25rem 0;
+    padding: 2rem 0;
 }
 
 .room-gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: 2fr 1fr; 
     gap: 1rem;
-    height: 20rem; 
+    height: 500px;
 }
 
-.gallery-main,
-.gallery-small {
-    overflow: hidden;
-    border-radius: var(--r-xl);
-    background: var(--soft-bg);
-    box-shadow: var(--shadow-soft);
-    border: 0.0625rem solid var(--soft-border);
+.gallery-main {
     height: 100%;
+    border-radius: var(--r-lg);
+    overflow: hidden;
     cursor: pointer;
 }
 
 .gallery-side {
-    display: contents;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.gallery-small {
+    flex: 1;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .room-gallery img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-    transition: opacity 0.3s;
+    transition: transform 0.5s ease;
 }
 
 .room-gallery img:hover {
-    opacity: 0.9;
+    transform: scale(1.05);
 }
 
 /* 
    =========================================
-   4. TOP INFO
+   4. INFO & LAYOUT
    ========================================= 
 */
 .room-top-section {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 26rem;
-    gap: 2.5rem;
-    align-items: start;
-    padding: 2rem 1.25rem 1rem;
-}
-
-.room-top-left {
-    padding-top: 0.25rem;
+    padding: 1rem 0 2rem;
 }
 
 .room-page-title {
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-    line-height: 1.1;
-    color: var(--text-main);
+    font-size: 2.5rem;
     font-weight: 800;
-    margin-bottom: 0.95rem;
+    margin-bottom: 0.5rem;
 }
 
-/* 
-   =========================================
-   5. MAIN CONTENT
-   ========================================= 
-*/
-.room-content-section {
-    padding: 0 1.25rem;
+.room-meta {
+    display: flex;
+    gap: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .room-content-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 26rem;
-    gap: 2.5rem;
-    align-items: start;
-}
-
-.room-content-left {
-    min-width: 0;
-}
-
-.content-block {
-    margin-bottom: 2.5rem;
-}
-
-.content-block h2 {
-    font-size: 1.5rem;
-    line-height: 1.15;
-    margin-bottom: 1.15rem;
-    color: var(--text-main);
-    font-weight: 800;
-}
-
-.content-block p {
-    max-width: 52rem;
-    color: var(--text-soft);
-    font-size: 1.05rem;
-    line-height: 1.8;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
 }
 
 /* 
    =========================================
-   6. AMENITIES
+   5. CONTENT BLOCKS
    ========================================= 
 */
+.content-block {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--soft-border);
+}
+
+.content-block:last-child {
+    border-bottom: none;
+}
+
+.content-block h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+
+.content-block p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-soft);
+}
+
+/* Amenities */
 .amenities-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(14rem, 1fr));
-    gap: 1rem 2.5rem;
-    max-width: 48rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
 }
 
 .amenity-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    color: var(--text-main);
-    font-size: 1.02rem;
-    font-weight: 500;
+    gap: 10px;
+    font-size: 1rem;
 }
 
 .amenity-check {
-    width: 1.6rem;
-    height: 1.6rem;
-    min-width: 1.6rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 0.125rem solid var(--primary);
-    border-radius: 50%;
     color: var(--primary);
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: bold;
 }
 
-/* 
-   =========================================
-   7. HOUSE RULES
-   ========================================= 
-*/
+/* Rules */
 .house-rules {
-    padding-left: 1.4rem;
-    color: var(--text-soft);
+    list-style: none;
 }
 
 .house-rules li {
-    margin-bottom: 0.45rem;
-    line-height: 1.85;
-    font-size: 1.04rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-soft);
 }
 
-/* 
-   =========================================
-   8. REVIEW
-   ========================================= 
-*/
+/* Review */
 .review-card {
     background: var(--soft-bg);
-    border: 0.0625rem solid var(--soft-border);
-    border-radius: var(--r-xl);
-    padding: 1.7rem;
+    padding: 2rem;
+    border-radius: var(--r-lg);
 }
 
 .review-card-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.15rem;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .review-user {
     display: flex;
-    align-items: flex-start;
-    gap: 0.95rem;
+    align-items: center;
+    gap: 12px;
 }
 
 .review-avatar {
-    width: 4rem;
-    height: 4rem;
-    min-width: 4rem;
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #d9cfbf;
-    color: var(--text-main);
-    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .review-user-meta h3 {
-    font-size: 1.05rem;
-    color: var(--text-main);
-    font-weight: 700;
-    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    margin: 0;
 }
 
 .review-user-meta span {
-    color: var(--text-soft);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
+    color: #888;
 }
 
 .review-stars {
-    color: var(--primary);
-    font-size: 1.2rem;
-    letter-spacing: 0.12rem;
-    white-space: nowrap;
-    margin-top: 0.2rem;
-}
-
-.review-card p {
-    margin: 0;
-    color: var(--text-soft);
-    font-size: 1.02rem;
-    line-height: 1.85;
+    color: #FFD700;
+    font-size: 0.9rem;
 }
 
 /* 
    =========================================
-   9. BOOKING CARD
+   6. BOOKING CARD
    ========================================= 
 */
 .booking-card {
-    background: var(--card-bg);
-    border: 0.0625rem solid var(--soft-border);
-    border-radius: var(--r-xl);
+    background: white;
+    border: 1px solid var(--soft-border);
+    border-radius: var(--r-lg);
+    padding: 2rem;
     box-shadow: var(--shadow-soft);
-    padding: 1.65rem;
-}
-
-.booking-card-desktop {
     position: sticky;
-    top: 6.8rem;
-}
-
-.booking-card-mobile {
-    display: none;
+    top: 100px;
 }
 
 .booking-price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 0.45rem;
-    margin-bottom: 1.35rem;
+    margin-bottom: 1.5rem;
 }
 
 .booking-price {
-    font-size: 2.85rem;
-    line-height: 1;
+    font-size: 1.8rem;
     font-weight: 800;
-    color: var(--text-main);
 }
 
 .booking-night {
-    color: var(--text-soft);
-    font-size: 1rem;
-    font-weight: 500;
+    color: #666;
+    margin-left: 5px;
 }
 
 .booking-form .input-group {
     margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .booking-form label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 2px;
 }
 
 .booking-form input {
+    border: none;
     width: 100%;
-    height: 3.2rem;
-    border: 0.0625rem solid var(--soft-border);
-    border-radius: var(--r-md);
-    background: var(--white);
-    color: var(--text-main);
-    padding: 0 0.95rem;
-    font-size: 1rem;
-    transition: 0.3s;
-}
-
-.booking-form input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 0.25rem rgba(197, 160, 89, 0.18);
-}
-
-.booking-form small {
-    display: block;
-    margin-top: 0.45rem;
-    color: var(--text-soft);
     font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    background: transparent;
 }
 
 .room-book-btn {
     width: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
     background: var(--primary);
-    color: var(--white);
-    border-radius: var(--r-pill);
-    height: 3.2rem;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
     font-size: 1rem;
     font-weight: 700;
-    margin-top: 1.2rem;
-    transition: 0.3s;
-    border: none;
     cursor: pointer;
+    transition: 0.3s;
+    margin-top: 0.5rem;
 }
 
 .room-book-btn:hover {
@@ -379,153 +295,83 @@
 }
 
 .booking-note {
-    margin-top: 1.25rem;
-    padding: 0.85rem 1rem;
-    background: #f0fdf4; /* Light green background */
-    border: 1px solid #dcfce7;
-    border-radius: var(--r-md);
+    margin-top: 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    color: #166534; /* Darker green text */
+    gap: 8px;
     font-size: 0.85rem;
-    font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.booking-note .icon {
-    display: flex;
-    align-items: center;
+    color: #2e7d32;
     justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background: #22c55e;
-    color: white;
-    border-radius: 50%;
-    font-size: 0.7rem;
 }
 
 /* 
    =========================================
-   10. LIGHTBOX (Image Preview)
+   7. LIGHTBOX
    ========================================= 
 */
 .lightbox {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
     z-index: 3000;
     display: none;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    cursor: zoom-out;
 }
 
-.lightbox.open {
-    display: flex;
-    opacity: 1;
-}
+.lightbox.open { display: flex; }
 
 .lightbox-content {
     max-width: 90%;
-    max-height: 85%;
-    border-radius: var(--r-md);
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.lightbox.open .lightbox-content {
-    transform: scale(1);
+    max-height: 80%;
+    object-fit: contain;
 }
 
 .lightbox-close {
     position: absolute;
-    top: 20px;
-    right: 30px;
-    color: white;
-    font-size: 3rem;
+    top: 20px; right: 30px;
+    color: white; font-size: 40px;
     cursor: pointer;
-    line-height: 1;
 }
 
 /* 
    =========================================
-   11. FOOTER SPACING
+   8. RESPONSIVE
    ========================================= 
 */
-.room-detail-page .footer {
-    margin-top: 1rem;
-}
-
-/* 
-   =========================================
-   12. RESPONSIVE
-   ========================================= 
-*/
-@media (max-width: 75rem) {
-    .room-top-section,
+@media (max-width: 1024px) {
     .room-content-grid {
-        grid-template-columns: minmax(0, 1fr) 23rem;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .booking-card {
+        position: static;
+        max-width: 500px;
+        margin: 0 auto;
     }
 }
 
-@media (max-width: 62rem) {
+@media (max-width: 768px) {
     .room-gallery {
-        grid-template-columns: repeat(2, 1fr); 
+        grid-template-columns: 1fr;
         height: auto;
     }
     
-    .gallery-main, .gallery-small {
-        height: 15rem;
-    }
-
-    .room-top-section,
-    .room-content-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .booking-card-desktop {
-        display: none;
-    }
-
-    .booking-card-mobile {
-        display: block;
-    }
-}
-
-@media (max-width: 48rem) {
-    .room-gallery {
-        grid-template-columns: 1fr; 
+    .gallery-side {
+        display: none; /* Hide side images on small mobile or stack them */
     }
     
-    .gallery-main, .gallery-small {
-        height: 12rem;
+    .gallery-main {
+        height: 300px;
     }
-
-    .room-gallery-section,
-    .room-top-section,
-    .room-content-section {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
+    
     .room-page-title {
         font-size: 2rem;
     }
-
-    .content-block h2 {
-        font-size: 1.5rem;
-    }
-
+    
     .amenities-grid {
         grid-template-columns: 1fr;
-        gap: 0.9rem;
     }
 }

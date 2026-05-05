@@ -42,7 +42,7 @@ const Home = () => {
         <h2>Why Choose Dune Tourist Camp</h2>
         <p className="subtitle">Experience authentic Mongolian hospitality with modern comfort</p>
 
-        <div className="features container">
+        <div className="features-wide">
           <div className="feature-box">
             <div className="icon-circle">🍃</div>
             <h3>Untamed Freshness</h3>

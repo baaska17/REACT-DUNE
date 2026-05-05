@@ -1,4 +1,4 @@
-/* res.css - Fixed image paths and wrapper */
+/* res.css - Cleaned up to avoid footer conflicts */
 
 .restaurant-page {
     background-color: #ffffff; 
@@ -6,9 +6,9 @@
     min-height: 100vh;
 }
 
-/* Hero - Fixed Image Path */
+/* Hero Section */
 .restaurant-hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/Tsuivan.jpg');
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/tsuivan.jpg');
     background-size: cover;
     background-position: center;
     padding: 8rem 0;
@@ -42,6 +42,7 @@
     color: var(--white);
 }
 
+/* Menu Filters */
 .menu-filters {
     display: flex;
     gap: 1rem;
@@ -69,6 +70,7 @@
     color: var(--white);
 }
 
+/* Menu Grid */
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -129,5 +131,16 @@
 .menu-info p { color: #666; font-size: 0.9rem; margin-bottom: 1rem; flex-grow: 1; }
 .price { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
 
-.alternate-bg { background-color: #f0ebe4; color: var(--dark); }
+/* About Kitchen Section */
+.about-kitchen.alternate-bg { 
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/tsuivan.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #ffffff; 
+}
+
+.about-kitchen h2 { color: #ffffff !important; }
+.about-kitchen p { color: #eeeeee !important; }
+
 .small-container { max-width: 800px; margin: 0 auto; text-align: center; padding: 4rem 1rem; }

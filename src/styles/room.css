@@ -1,4 +1,10 @@
 /* Room Selection Page Styles */
+.rooms-page {
+    background-color: #f4f7f6; /* Цайвар саарал/цагаан өнгө */
+    min-height: 100vh;
+    color: #333;
+}
+
 .light-page {
     background: #f4f7f6;
     color: #333;
