@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* 
+   =========================================
+   1. CSS CUSTOM PROPERTIES
+   ========================================= 
+*/
+:root {
+    --primary: #C5A059;
+    --primary-h: #a8874a;
+    --bg-dark: #1a1a1a;
+    --white: #ffffff;
+    --dark: #333333;
+    --muted: #666666;
+    --glass: rgba(229, 224, 216, 0.9);
+    --nav-active: #E5E0D8;
+    --r-sm: 0.25rem;   
+    --r-md: 0.75rem;    
+    --r-lg: 1.5625rem;  
+    --r-pill: 3.125rem; 
+    --max-w: 75rem;
+}
+
+/* 
+   =========================================
+   2. GLOBAL RESET & BASE STYLES
+   ========================================= 
+*/
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+#root {
+    width: 100%;
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; }
+.section-padding { padding: 5rem 1.25rem; text-align: center; }
+
+/* Global Buttons */
+.btn-gold {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.btn-gold:hover { background-color: var(--primary-h); }
+
+.btn-white {
+    background-color: var(--white);
+    color: var(--dark);
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.1);
+}
