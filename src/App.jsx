@@ -10,6 +10,7 @@ import RoomDetails from './pages/RoomDetails'
 import HorseRide from './pages/HorseRide'
 import Restaurant from './pages/Restaurant'
 import Checkout from './pages/Checkout'
+import OrderTrack from './pages/OrderTrack'
 
 import './index.css'
 import './styles/Home.css'
@@ -31,6 +32,7 @@ function App() {
             <Route path="/horse" element={<HorseRide />} />
             <Route path="/restaurant" element={<Restaurant />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-track" element={<OrderTrack />} />
           </Routes>
           <Footer />
         </div>
