@@ -14,36 +14,39 @@ const Home = () => {
         </div>
       </section>
 
-      <AccordionGallery />
-
-      <section className="booking-section">
-        <div className="booking-overlay" />
-        <div className="booking-card">
-          <p className="booking-eyebrow">Plan Your Stay</p>
-          <h2 className="booking-headline">Reserve Your Escape</h2>
-          <div className="booking-form-bar">
-            <div className="booking-field">
-              <label htmlFor="b-checkin">Check-in</label>
-              <input type="date" id="b-checkin" />
+      <section className="discovery-booking-wrapper">
+        <div className="container combined-container">
+          <div className="discovery-side">
+            <AccordionGallery />
+          </div>
+          
+          <div className="booking-side">
+            <div className="booking-card vertical-booking">
+              <p className="booking-eyebrow">Plan Your Stay</p>
+              <h2 className="booking-headline">Reserve Your Escape</h2>
+              <div className="booking-form-vertical">
+                <div className="booking-field">
+                  <label htmlFor="b-checkin">Check-in</label>
+                  <input type="date" id="b-checkin" />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="b-checkout">Check-out</label>
+                  <input type="date" id="b-checkout" />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="b-guests">Guests</label>
+                  <select id="b-guests">
+                    <option>1 Guest</option>
+                    <option>2 Guests</option>
+                    <option>3 Guests</option>
+                    <option>4+ Guests</option>
+                  </select>
+                </div>
+                <button className="booking-search-btn-gold" onClick={() => navigate('/rooms')}>
+                  Search Rooms
+                </button>
+              </div>
             </div>
-            <div className="booking-divider" />
-            <div className="booking-field">
-              <label htmlFor="b-checkout">Check-out</label>
-              <input type="date" id="b-checkout" />
-            </div>
-            <div className="booking-divider" />
-            <div className="booking-field">
-              <label htmlFor="b-guests">Guests</label>
-              <select id="b-guests">
-                <option>1 Guest</option>
-                <option>2 Guests</option>
-                <option>3 Guests</option>
-                <option>4+ Guests</option>
-              </select>
-            </div>
-            <button className="booking-search-btn" onClick={() => navigate('/rooms')}>
-              Search Rooms
-            </button>
           </div>
         </div>
       </section>
