@@ -5,12 +5,7 @@ import '../styles/horse.css';
 const HorseRide = () => {
   const { addToCart } = useCart();
   const [peopleCount, setPeopleCount] = useState(1);
-  const [selectedExperience, setSelectedExperience] = useState({
-    id: 101,
-    title: "Sunset Ride - 1 Hour",
-    price: 35,
-    image: "Horse Ride.jpg"
-  });
+  const [selectedExperience, setSelectedExperience] = useState(null);
 
   const experiences = [
     {
@@ -43,6 +38,8 @@ const HorseRide = () => {
   ];
 
   const handleBooking = () => {
+    if (!selectedExperience) return;
+
     addToCart({
       ...selectedExperience,
       title: `${selectedExperience.title} (${peopleCount} People)`,
@@ -69,21 +66,27 @@ const HorseRide = () => {
         <div className="container main-content-area">
           <section className="quick-info-grid">
             <div className="info-card">
-              <span className="info-icon">🕒</span>
+              <span className="info-icon">
+                <img src="/clock.png" alt="Duration" />
+              </span>
               <div>
                 <span className="info-label">Duration</span>
                 <span className="info-value">1–3 hours</span>
               </div>
             </div>
             <div className="info-card">
-              <span className="info-icon">🎖️</span>
+              <span className="info-icon">
+                <img src="/chicken.png" alt="Level" />
+              </span>
               <div>
                 <span className="info-label">Level</span>
                 <span className="info-value">Beginner-friendly</span>
               </div>
             </div>
             <div className="info-card">
-              <span className="info-icon">🛡️</span>
+              <span className="info-icon">
+                <img src="/shield.png" alt="Safety" />
+              </span>
               <div>
                 <span className="info-label">Includes</span>
                 <span className="info-value">Helmet + Guide</span>
@@ -102,7 +105,7 @@ const HorseRide = () => {
                 {experiences.map(exp => (
                   <div 
                     key={exp.id} 
-                    className={`exp-card ${selectedExperience.id === exp.id ? 'active' : ''}`}
+                    className={`exp-card ${selectedExperience?.id === exp.id ? 'active' : ''}`}
                     onClick={() => setSelectedExperience(exp)}
                   >
                     <div className="exp-header">
@@ -139,6 +142,7 @@ const HorseRide = () => {
                     <label> Select Date</label>
                     <input type="date" defaultValue="2026-07-15" />
                   </div>
+
                   <div className="form-group">
                     <label> Select Time</label>
                     <select defaultValue="10:00 AM">
@@ -148,26 +152,30 @@ const HorseRide = () => {
                       <option value="05:00 PM (Sunset)">05:00 PM (Sunset)</option>
                     </select>
                   </div>
+
                   <div className="form-group">
                     <label> Number of People</label>
                     <input 
                       type="number" 
                       value={peopleCount} 
                       min="1" 
-                      max={selectedExperience.maxPeople}
+                      max={selectedExperience?.maxPeople || 1}
                       onChange={(e) => setPeopleCount(parseInt(e.target.value) || 1)}
                     />
-                    <span className="input-hint">Maximum {selectedExperience.maxPeople} people</span>
+                    <span className="input-hint">
+                      Maximum {selectedExperience?.maxPeople || 0} people
+                    </span>
                   </div>
                   
                   <div className="price-summary">
                     <div className="price-line">
                       <span>Rate per person</span>
-                      <span>${selectedExperience.price}</span>
+                      <span>${selectedExperience?.price || 0}</span>
                     </div>
+
                     <div className="total-line">
                       <span>Total</span>
-                      <span>${selectedExperience.price * peopleCount}</span>
+                      <span>${(selectedExperience?.price || 0) * peopleCount}</span>
                     </div>
                   </div>
 
@@ -175,10 +183,14 @@ const HorseRide = () => {
                     className="btn-gold" 
                     style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', fontWeight: 700 }}
                     onClick={handleBooking}
+                    disabled={!selectedExperience}
                   >
                     Book This Experience
                   </button>
-                  <p className="cancellation-policy">Free cancellation up to 24 hours before the ride</p>
+
+                  <p className="cancellation-policy">
+                    Free cancellation up to 24 hours before the ride
+                  </p>
                 </div>
               </div>
             </aside>
