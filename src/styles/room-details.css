@@ -11,7 +11,7 @@
     --white: #ffffff;
     --dark: #1a1a1a;
     --muted: #666666;
-    --page-bg: #ffffff; /* Changed to white as requested */
+    --page-bg: #ffffff;
     --soft-bg: #f9f9f9;
     --soft-border: #eeeeee;
     --text-main: #1a1a1a;
@@ -25,6 +25,15 @@
     --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme="dark"] {
+    --page-bg: #121212;
+    --soft-bg: #1e1e1e;
+    --soft-border: #333333;
+    --text-main: #ffffff;
+    --text-soft: #d1d1d1;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
 /* 
    =========================================
    2. PAGE BASE
@@ -35,303 +44,264 @@
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.room-details-main {
-    padding-bottom: 5rem;
+.room-details-container {
+    padding: 3rem 0 6rem;
+}
+
+.room-details-container .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: block; /* Flex-ээс Block руу шилжүүлж overlap-аас сэргийлэв */
 }
 
 /* 
    =========================================
-   3. GALLERY (1 Large, 2 Small)
+   3. HEADER SECTION
    ========================================= 
 */
-.room-gallery-section {
-    padding: 2rem 0;
+.room-details-header {
+    margin-bottom: 2.5rem;
 }
 
-.room-gallery {
-    display: grid;
-    grid-template-columns: 2fr 1fr; 
-    gap: 1rem;
-    height: 500px;
-}
-
-.gallery-main {
-    height: 100%;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.gallery-side {
+.breadcrumbs {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 100%;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
-.gallery-small {
-    flex: 1;
+.breadcrumbs a { color: #888; text-decoration: none; }
+.breadcrumbs .separator { color: #ccc; }
+.breadcrumbs .current { color: var(--primary); font-weight: 600; }
+
+.room-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
+
+.room-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+    color: var(--text-soft);
+}
+
+/* 
+   =========================================
+   4. GALLERY SECTION
+   ========================================= 
+*/
+.room-details-gallery {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    aspect-ratio: 16/9; /* Хатуу өндрөөс татгалзав */
+    max-height: 600px;
+    margin-bottom: 3rem;
     border-radius: var(--r-lg);
+    overflow: hidden;
+}
+
+.gallery-main-frame, .gallery-thumb {
     overflow: hidden;
     cursor: pointer;
 }
 
-.room-gallery img {
+.gallery-side-frame {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}
+
+.room-details-gallery img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    display: block;
+    transition: transform 0.4s ease;
 }
 
-.room-gallery img:hover {
+.room-details-gallery img:hover {
     transform: scale(1.05);
 }
 
 /* 
    =========================================
-   4. INFO & LAYOUT
+   5. CONTENT SECTION
    ========================================= 
 */
-.room-top-section {
-    padding: 1rem 0 2rem;
-}
-
-.room-page-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-}
-
-.room-meta {
-    display: flex;
-    gap: 20px;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.room-content-grid {
+.room-details-content {
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 4rem;
+    grid-template-columns: minmax(0, 1fr) 380px; /* minmax(0, 1fr) нь текстийг халихаас сэргийлнэ */
+    gap: 5rem;
+    align-items: start;
+    position: relative;
 }
 
-/* 
-   =========================================
-   5. CONTENT BLOCKS
-   ========================================= 
-*/
-.content-block {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
+.content-left-col {
+    min-width: 0; /* Текст гадагшаа түрж гарахгүй байх нөхцөл */
+}
+
+.room-section {
+    margin-bottom: 4rem;
+}
+
+.room-section h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid var(--soft-border);
 }
 
-.content-block:last-child {
-    border-bottom: none;
-}
-
-.content-block h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-    font-weight: 700;
-}
-
-.content-block p {
-    font-size: 1.05rem;
-    line-height: 1.7;
+.room-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
     color: var(--text-soft);
+    white-space: pre-line; /* Текст шилжилтийг хадгалах */
 }
 
-/* Amenities */
-.amenities-grid {
+.amenities-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
 }
 
-.amenity-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-}
-
-.amenity-check {
-    color: var(--primary);
-    font-weight: bold;
-}
-
-/* Rules */
-.house-rules {
-    list-style: none;
-}
-
-.house-rules li {
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-soft);
-}
-
-/* Review */
-.review-card {
-    background: var(--soft-bg);
-    padding: 2rem;
-    border-radius: var(--r-lg);
-}
-
-.review-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.review-user {
+.amenity-tag {
     display: flex;
     align-items: center;
     gap: 12px;
+    font-size: 1.05rem;
+    color: var(--text-soft);
 }
 
-.review-avatar {
-    width: 45px;
-    height: 45px;
-    background: var(--primary);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-}
+.amenity-tag .check { color: var(--primary); font-weight: 800; }
 
-.review-user-meta h3 {
-    font-size: 1rem;
-    margin: 0;
-}
+.rules-list { list-style: none; }
+.rules-list li { margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; color: var(--text-soft); }
 
-.review-user-meta span {
-    font-size: 0.8rem;
-    color: #888;
-}
-
-.review-stars {
-    color: #FFD700;
-    font-size: 0.9rem;
+.testimonial-card {
+    background: var(--soft-bg);
+    padding: 2.5rem;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--soft-border);
 }
 
 /* 
    =========================================
-   6. BOOKING CARD
+   6. SIDEBAR BOOKING CARD
    ========================================= 
 */
-.booking-card {
-    background: white;
+.content-right-col {
+    position: relative;
+}
+
+.sticky-booking-card {
+    background: var(--page-bg);
     border: 1px solid var(--soft-border);
     border-radius: var(--r-lg);
-    padding: 2rem;
+    padding: 2.5rem;
     box-shadow: var(--shadow-soft);
     position: sticky;
-    top: 100px;
+    top: 120px;
+    z-index: 10;
 }
 
-.booking-price-row {
-    margin-bottom: 1.5rem;
+[data-theme="dark"] .sticky-booking-card {
+    background: #1e1e1e;
 }
 
-.booking-price {
-    font-size: 1.8rem;
-    font-weight: 800;
+.price-tag { margin-bottom: 2rem; }
+.price-tag .amount { font-size: 2.4rem; font-weight: 800; color: var(--text-main); }
+.price-tag .per { color: var(--text-soft); font-size: 1.1rem; }
+
+.booking-fields .field {
+    margin-bottom: 1.25rem;
+    padding: 15px;
+    border: 1px solid var(--soft-border);
+    border-radius: 12px;
+    background: var(--soft-bg);
 }
 
-.booking-night {
-    color: #666;
-    margin-left: 5px;
-}
-
-.booking-form .input-group {
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.booking-form label {
+.booking-fields label {
     display: block;
     font-size: 0.7rem;
     font-weight: 800;
-    color: #333;
-    margin-bottom: 2px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
-.booking-form input {
-    border: none;
-    width: 100%;
-    font-size: 0.9rem;
-    font-weight: 500;
-    outline: none;
-    background: transparent;
-}
+.booking-fields .value { font-size: 1rem; font-weight: 600; color: var(--text-main); }
 
-.room-book-btn {
+.reserve-btn {
     width: 100%;
     background: var(--primary);
     color: white;
     border: none;
-    padding: 1rem;
-    border-radius: 12px;
-    font-size: 1rem;
+    padding: 1.2rem;
+    border-radius: 14px;
+    font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.room-book-btn:hover {
-    background: var(--primary-h);
-}
+.reserve-btn:hover { background: var(--primary-h); transform: translateY(-2px); }
 
-.booking-note {
-    margin-top: 1.5rem;
+.hint { text-align: center; font-size: 0.85rem; color: #888; }
+
+.guarantee {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #2e7d32;
     justify-content: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-soft);
 }
+
+.guarantee .icon { color: var(--primary); }
 
 /* 
    =========================================
    7. LIGHTBOX
    ========================================= 
 */
-.lightbox {
+.image-lightbox {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.95);
     z-index: 3000;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     cursor: zoom-out;
 }
 
-.lightbox.open { display: flex; }
-
-.lightbox-content {
+.image-lightbox img {
     max-width: 90%;
-    max-height: 80%;
-    object-fit: contain;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
 
-.lightbox-close {
+.close-x {
     position: absolute;
-    top: 20px; right: 30px;
-    color: white; font-size: 40px;
+    top: 30px;
+    right: 30px;
+    color: white;
+    font-size: 3rem;
     cursor: pointer;
 }
 
@@ -340,38 +310,15 @@
    8. RESPONSIVE
    ========================================= 
 */
-@media (max-width: 1024px) {
-    .room-content-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-    
-    .booking-card {
-        position: static;
-        max-width: 500px;
-        margin: 0 auto;
-    }
+@media (max-width: 1100px) {
+    .room-details-content { grid-template-columns: 1fr; gap: 4rem; }
+    .content-right-col { max-width: 500px; margin: 0 auto; width: 100%; }
+    .sticky-booking-card { position: static; }
 }
 
 @media (max-width: 768px) {
-    .room-gallery {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-    
-    .gallery-side {
-        display: none; /* Hide side images on small mobile or stack them */
-    }
-    
-    .gallery-main {
-        height: 300px;
-    }
-    
-    .room-page-title {
-        font-size: 2rem;
-    }
-    
-    .amenities-grid {
-        grid-template-columns: 1fr;
-    }
+    .room-title { font-size: 2.2rem; }
+    .room-details-gallery { grid-template-columns: 1fr; aspect-ratio: 4/3; }
+    .gallery-side-frame { display: none; }
+    .room-details-container { padding: 2rem 0 4rem; }
 }

@@ -119,11 +119,11 @@ const Checkout = () => {
 
         {showSuccess && (
           <div className="cart-overlay open" style={{ display: 'block' }}>
-            <div className="glass-panel" style={{ position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', textAlign:'center', padding: '3rem', background: 'white', borderRadius: '20px', zIndex: 1001 }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
+            <div className="success-modal">
+              <div className="success-icon">✅</div>
               <h2>Order Confirmed!</h2>
               <p>Thank you for choosing Dune Tourist Camp.</p>
-              <Link to="/" className="btn-gold" style={{ marginTop: '2rem', display: 'inline-block', padding: '1rem 2rem', textDecoration: 'none' }}>
+              <Link to="/" className="btn-gold" style={{ marginTop: '2rem' }}>
                 Back to Home
               </Link>
             </div>

@@ -8,7 +8,6 @@ const PANELS = [
     category: 'Adventure',
     title: 'Horse Riding Adventure',
     description: 'Explore the vast Mongolian steppe on horseback with experienced local guides',
-    price: '₮35,000',
     image: '/Horse Ride.jpg',
     link: '/horse',
   },
@@ -18,7 +17,6 @@ const PANELS = [
     category: 'Food',
     title: 'Traditional Cuisine',
     description: 'Savor authentic Mongolian dishes and flavors prepared by skilled local chefs',
-    price: '₮45,000',
     image: '/Khorkhog.jpg',
     link: '/restaurant',
   },
@@ -28,7 +26,6 @@ const PANELS = [
     category: 'Shop',
     title: 'Artisan Dairy Shop',
     description: 'Handcrafted traditional dairy products made from fresh nomadic milk daily',
-    price: '₮15,000',
     image: '/urum.jpg',
     link: '/restaurant',
   },
@@ -55,7 +52,7 @@ const AccordionGallery = () => {
           >
             <div
               className="accordion-bg"
-              style={{ backgroundImage: `url(${item.image})` }}
+              style={{ backgroundImage: `url("${item.image}")` }}
             />
             <div className="accordion-overlay" />
 
@@ -70,7 +67,6 @@ const AccordionGallery = () => {
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <div className="accordion-footer">
-                <span className="accordion-price">{item.price}</span>
                 <span className="accordion-explore-btn">Explore →</span>
               </div>
             </div>

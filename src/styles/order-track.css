@@ -7,7 +7,7 @@
 }
 
 [data-theme="dark"] .order-track-page {
-  background: linear-gradient(135deg, #2d2d2d 0%, #333333 100%);
+  background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
 }
 
 .order-track-page .container {
@@ -25,7 +25,7 @@
 }
 
 [data-theme="dark"] .order-track-page h1 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .order-track-page .subtitle {
@@ -37,7 +37,7 @@
 }
 
 [data-theme="dark"] .order-track-page .subtitle {
-  color: var(--text-secondary);
+  color: #d1d1d1;
 }
 
 /* Search Section */
@@ -51,8 +51,8 @@
 }
 
 [data-theme="dark"] .search-section {
-  background: var(--card-bg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #1e1e1e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .search-box {
@@ -74,9 +74,9 @@
 }
 
 [data-theme="dark"] .search-box input {
-  border-color: var(--border-color);
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
+  border-color: #333;
+  background-color: #2a2a2a;
+  color: #ffffff;
 }
 
 .search-box input:focus {
@@ -112,7 +112,7 @@
 }
 
 [data-theme="dark"] .help-text {
-  color: var(--text-secondary);
+  color: #a0a0a0;
 }
 
 /* Results Section */
@@ -132,9 +132,9 @@
 }
 
 [data-theme="dark"] .no-results {
-  background: var(--card-bg);
-  color: var(--text-secondary);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #1e1e1e;
+  color: #d1d1d1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .welcome-message {
@@ -147,8 +147,8 @@
 }
 
 [data-theme="dark"] .welcome-message {
-  background: var(--card-bg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #1e1e1e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .welcome-message h2 {
@@ -159,7 +159,7 @@
 }
 
 [data-theme="dark"] .welcome-message h2 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .welcome-message p {
@@ -170,7 +170,7 @@
 }
 
 [data-theme="dark"] .welcome-message p {
-  color: var(--text-secondary);
+  color: #d1d1d1;
 }
 
 .demo-hint {
@@ -191,8 +191,8 @@
 }
 
 [data-theme="dark"] .order-card {
-  background: var(--card-bg);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  background: #1e1e1e;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .order-card.order-room {
@@ -219,7 +219,7 @@
 }
 
 [data-theme="dark"] .order-header {
-  border-bottom-color: var(--border-color);
+  border-bottom-color: #333;
 }
 
 .order-header h2 {
@@ -231,7 +231,7 @@
 }
 
 [data-theme="dark"] .order-header h2 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .order-id {
@@ -241,7 +241,7 @@
 }
 
 [data-theme="dark"] .order-id {
-  color: var(--text-secondary);
+  color: #a0a0a0;
 }
 
 .status-badge {
@@ -272,7 +272,7 @@
 }
 
 [data-theme="dark"] .detail-group h3 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .details-grid {
@@ -297,7 +297,7 @@
 }
 
 [data-theme="dark"] .detail-item .label {
-  color: var(--text-secondary);
+  color: #a0a0a0;
 }
 
 .detail-item .value {
@@ -308,7 +308,7 @@
 }
 
 [data-theme="dark"] .detail-item .value {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 /* Food Progress */
@@ -321,7 +321,7 @@
 }
 
 [data-theme="dark"] .food-progress {
-  background: var(--bg-secondary);
+  background: #2a2a2a;
 }
 
 .food-progress h3 {
@@ -333,7 +333,7 @@
 }
 
 [data-theme="dark"] .food-progress h3 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .progress-steps {
@@ -356,7 +356,7 @@
 }
 
 [data-theme="dark"] .progress-steps::before {
-  background: var(--border-color);
+  background: #444;
 }
 
 .step {
@@ -384,9 +384,9 @@
 }
 
 [data-theme="dark"] .step-circle {
-  background: var(--bg-secondary);
-  border-color: var(--border-color);
-  color: var(--text-secondary);
+  background: #2a2a2a;
+  border-color: #444;
+  color: #888;
 }
 
 .step.completed .step-circle {
@@ -404,7 +404,7 @@
 }
 
 [data-theme="dark"] .step p {
-  color: var(--text-secondary);
+  color: #a0a0a0;
 }
 
 .step.completed p {
@@ -423,7 +423,7 @@
 }
 
 [data-theme="dark"] .actions {
-  border-top-color: var(--border-color);
+  border-top-color: #333;
 }
 
 .btn-action {
@@ -485,7 +485,7 @@
 }
 
 [data-theme="dark"] .contact-info {
-  background: var(--bg-secondary);
+  background: #2a2a2a;
 }
 
 .contact-info h3 {
@@ -497,7 +497,7 @@
 }
 
 [data-theme="dark"] .contact-info h3 {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .contact-details {
@@ -513,7 +513,7 @@
 }
 
 [data-theme="dark"] .contact-details p {
-  color: var(--text-secondary);
+  color: #d1d1d1;
 }
 
 /* Responsive */

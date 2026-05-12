@@ -9,7 +9,6 @@ const RoomDetails = () => {
   const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // In a real app, you'd fetch this from a JSON or API
   const roomsData = {
     301: {
       id: 301,
@@ -55,139 +54,131 @@ const RoomDetails = () => {
       quantity: 1,
       image: room.images[0]
     });
-    navigate('/rooms'); // Or stay and show a message
+    navigate('/rooms');
   };
 
   return (
     <div className="room-detail-page">
-      <main className="room-details-main">
-        {/* Gallery Section */}
-        <section className="room-gallery-section">
-          <div className="container">
-            <div className="room-gallery">
-              <div className="gallery-main" onClick={() => setSelectedImage(room.images[0])}>
-                <img src={room.images[0]} alt={room.title} />
-              </div>
-              <div className="gallery-side">
-                {room.images.slice(1, 3).map((img, idx) => (
-                  <div key={idx} className="gallery-small" onClick={() => setSelectedImage(img)}>
-                    <img src={img} alt={`${room.title} ${idx + 2}`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Top Info Section */}
-        <section className="room-top-section container">
-          <div className="room-top-left">
-            <nav className="breadcrumbs" style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#888' }}>
-              <Link to="/" style={{ color: '#888', textDecoration: 'none' }}>Home</Link> 
-              <span style={{ margin: '0 8px' }}>/</span> 
-              <Link to="/rooms" style={{ color: '#888', textDecoration: 'none' }}>Rooms</Link> 
-              <span style={{ margin: '0 8px' }}>/</span>
-              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{room.title}</span>
+      <main className="room-details-container">
+        <div className="container">
+          
+          {/* 1. TOP NAV & TITLE */}
+          <div className="room-details-header">
+            <nav className="breadcrumbs">
+              <Link to="/">Home</Link>
+              <span className="separator">/</span>
+              <Link to="/rooms">Rooms</Link>
+              <span className="separator">/</span>
+              <span className="current">{room.title}</span>
             </nav>
-            <h1 className="room-page-title">{room.title}</h1>
-            <div className="room-meta" style={{ display: 'flex', gap: '20px', color: '#666' }}>
+            <h1 className="room-title">{room.title}</h1>
+            <div className="room-meta-info">
               <span>⭐ 4.9 (24 Reviews)</span>
+              <span className="dot">•</span>
               <span>📍 Dune Camp, Mongolia</span>
             </div>
           </div>
-        </section>
 
-        {/* Content Section */}
-        <section className="room-content-section container">
-          <div className="room-content-grid">
-            <div className="room-content-left">
-              <div className="content-block">
+          {/* 2. GALLERY */}
+          <div className="room-details-gallery">
+            <div className="gallery-main-frame" onClick={() => setSelectedImage(room.images[0])}>
+              <img src={room.images[0]} alt={room.title} />
+            </div>
+            <div className="gallery-side-frame">
+              {room.images.slice(1, 3).map((img, idx) => (
+                <div key={idx} className="gallery-thumb" onClick={() => setSelectedImage(img)}>
+                  <img src={img} alt={`${room.title} ${idx + 2}`} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. MAIN CONTENT */}
+          <div className="room-details-content">
+            <div className="content-left-col">
+              <section className="room-section">
                 <h2>Description</h2>
                 <p>{room.description}</p>
-              </div>
+              </section>
 
-              <div className="content-block">
+              <section className="room-section">
                 <h2>What this place offers</h2>
-                <div className="amenities-grid">
+                <div className="amenities-list">
                   {room.features.map((feature, i) => (
-                    <div key={i} className="amenity-item">
-                      <span className="amenity-check">✓</span>
-                      <span>{feature}</span>
+                    <div key={i} className="amenity-tag">
+                      <span className="check">✓</span> {feature}
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
 
-              <div className="content-block">
+              <section className="room-section">
                 <h2>House Rules</h2>
-                <ul className="house-rules">
+                <ul className="rules-list">
                   <li>Check-in: After 2:00 PM</li>
                   <li>Check-out: 11:00 AM</li>
                   <li>No smoking inside</li>
                   <li>Pets allowed (please notify in advance)</li>
                 </ul>
-              </div>
+              </section>
 
-              <div className="content-block">
+              <section className="room-section">
                 <h2>Guest Review</h2>
-                <div className="review-card">
-                  <div className="review-card-top">
-                    <div className="review-user">
-                      <div className="review-avatar">B</div>
-                      <div className="review-user-meta">
+                <div className="testimonial-card">
+                  <div className="testimonial-header">
+                    <div className="user-info">
+                      <div className="avatar">B</div>
+                      <div>
                         <h3>Bat-Erdene</h3>
-                        <span>Joined in 2023</span>
+                        <p>Joined in 2023</p>
                       </div>
                     </div>
-                    <div className="review-stars">⭐⭐⭐⭐⭐</div>
+                    <div className="stars">⭐⭐⭐⭐⭐</div>
                   </div>
-                  <p>"An incredible experience! Staying in a traditional Ger with all the modern comforts was the highlight of our trip to Mongolia. The staff was amazing and the breakfast was delicious."</p>
+                  <p>"An incredible experience! Staying in a traditional Ger with all the modern comforts was the highlight of our trip to Mongolia."</p>
+                </div>
+              </section>
+            </div>
+
+            {/* SIDEBAR */}
+            <div className="content-right-col">
+              <div className="sticky-booking-card">
+                <div className="price-tag">
+                  <span className="amount">${room.price}</span>
+                  <span className="per">/ night</span>
+                </div>
+                
+                <div className="booking-fields">
+                  <div className="field">
+                    <label>DATES</label>
+                    <div className="value">Apr 29 - Apr 30, 2026</div>
+                  </div>
+                  <div className="field">
+                    <label>GUESTS</label>
+                    <div className="value">2 Guests</div>
+                  </div>
+                </div>
+
+                <button onClick={handleBookNow} className="reserve-btn">
+                  Reserve Now
+                </button>
+                
+                <p className="hint">You won't be charged yet</p>
+
+                <div className="guarantee">
+                  <span className="icon">✓</span> Best price guaranteed
                 </div>
               </div>
             </div>
-
-            {/* Sidebar Booking Card */}
-            <aside className="room-content-right">
-              <div className="booking-card booking-card-desktop">
-                <div className="booking-price-row">
-                  <span className="booking-price">${room.price}</span>
-                  <span className="booking-night">/ night</span>
-                </div>
-                
-                <div className="booking-form">
-                  <div className="input-group">
-                    <label>DATES</label>
-                    <input type="text" readOnly value="Apr 29 - Apr 30, 2026" />
-                  </div>
-                  <div className="input-group">
-                    <label>GUESTS</label>
-                    <input type="text" readOnly value="2 Guests" />
-                  </div>
-                </div>
-
-                <button onClick={handleBookNow} className="room-book-btn">
-                  Reserve This Room
-                </button>
-                
-                <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#888', marginTop: '1rem' }}>
-                  You won't be charged yet
-                </p>
-
-                <div className="booking-note">
-                  <span className="icon">✓</span>
-                  <span>Best price guaranteed</span>
-                </div>
-              </div>
-            </aside>
           </div>
-        </section>
+        </div>
       </main>
 
       {/* Lightbox */}
       {selectedImage && (
-        <div className={`lightbox ${selectedImage ? 'open' : ''}`} onClick={() => setSelectedImage(null)}>
-          <span className="lightbox-close">&times;</span>
-          <img className="lightbox-content" src={selectedImage} alt="Room Preview" />
+        <div className="image-lightbox" onClick={() => setSelectedImage(null)}>
+          <img src={selectedImage} alt="Preview" />
+          <span className="close-x">&times;</span>
         </div>
       )}
     </div>

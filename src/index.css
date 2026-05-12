@@ -31,14 +31,14 @@
     --card-bg: #ffffff;
 }
 
-/* Dark Mode */
+/* Dark Mode - Enhanced Contrast */
 [data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
     --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --border-color: #404040;
-    --card-bg: #252525;
+    --text-secondary: #d1d1d1; /* Арай тод болгов (өмнө нь #b0b0b0 байсан) */
+    --border-color: #333333;
+    --card-bg: #1e1e1e;
 }
 
 /* 
