@@ -158,7 +158,7 @@
     display: grid;
     grid-template-columns: 1.8fr 1fr;
     gap: var(--gap-lg);
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 
     align-items: start;
 }
@@ -273,7 +273,7 @@
 
 .booking-sidebar {
     position: sticky;
-    top: 2rem;
+    top: 5.5rem;
 
     align-self: start;
     height: fit-content;
