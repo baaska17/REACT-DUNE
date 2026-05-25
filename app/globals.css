@@ -2,6 +2,11 @@
 html, body {
   padding: 0;
   margin: 0;
+}
+
+/* overflow-x: hidden on body breaks position: sticky.
+   Apply it to the wrapper div instead. */
+.app-wrapper {
   overflow-x: hidden;
 }
 

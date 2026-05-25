@@ -53,17 +53,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* ── Col 2: Explore ── */}
-        <div className="footer-col">
-          <h4>{t.footer.explore}</h4>
-          <ul className="footer-nav-list">
-            {navLinks.map(link => (
-              <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
 
         {/* ── Col 3: Contact ── */}
         <div className="footer-col">
@@ -86,12 +75,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* ── Col 4: Book CTA ── */}
-        <div className="footer-col footer-cta-col">
-          <h4>{t.footer.bookNow}</h4>
-          <p className="footer-cta-text">{t.footer.bookCta}</p>
-          <Link href="/rooms" className="footer-cta-btn">{t.footer.reserveNow}</Link>
-        </div>
 
       </div>
 

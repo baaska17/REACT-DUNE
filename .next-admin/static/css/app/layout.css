@@ -436,12 +436,16 @@ body {
     min-height: 100vh;
 }
 
+/* Fixed header-н өндрийг нөхнө */
+.app-wrapper > main {
+    padding-top: var(--nav-height);
+}
+
 body {
     background-color: var(--bg-dark);
     color: var(--white);
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    overflow-x: hidden;
 }
 
 .container { max-width: 95rem; margin: 0 auto; padding: 0 1.5rem; }
@@ -477,9 +481,10 @@ body {
     align-items: center;
     padding: 0 3.125rem;
     height: var(--nav-height);
-    position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     color: var(--dark);
 
@@ -1715,6 +1720,11 @@ body {
 html, body {
   padding: 0;
   margin: 0;
+}
+
+/* overflow-x: hidden on body breaks position: sticky.
+   Apply it to the wrapper div instead. */
+.app-wrapper {
   overflow-x: hidden;
 }
 
