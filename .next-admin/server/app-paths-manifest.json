@@ -1,0 +1,9 @@
+{
+  "/api/upload/route": "app/api/upload/route.js",
+  "/api/foods/[id]/route": "app/api/foods/[id]/route.js",
+  "/api/adventures/route": "app/api/adventures/route.js",
+  "/api/rooms/route": "app/api/rooms/route.js",
+  "/api/foods/route": "app/api/foods/route.js",
+  "/api/orders/route": "app/api/orders/route.js",
+  "/admin/page": "app/admin/page.js"
+}

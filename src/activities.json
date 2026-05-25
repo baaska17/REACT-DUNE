@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Horse Riding Adventure",
+    "description": "Explore the vast Mongolian steppe on horseback with experienced guides",
+    "price": 35000,
+    "image": "Horse Ride.jpg",
+    "link": "/horse",
+    "category": "Adventure",
+    "rating": 4.9,
+    "tags": ["outdoor", "nature", "horses"],
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Traditional Cuisine",
+    "description": "Savor authentic Mongolian dishes and flavors prepared by local chefs",
+    "price": 45000,
+    "image": "Khorkhog.jpg",
+    "link": "/restaurant",
+    "category": "Food",
+    "rating": 4.7,
+    "tags": ["food", "culture", "authentic"],
+    "featured": true
+  },
+  {
+    "id": 3,
+    "title": "Dairy Shop",
+    "description": "Handcrafted traditional dairy products made from fresh nomadic milk",
+    "price": 15000,
+    "image": "urum.jpg",
+    "link": "/restaurant",
+    "category": "Shop",
+    "rating": 4.5,
+    "tags": ["dairy", "traditional", "shop"],
+    "featured": true
+  }
+]

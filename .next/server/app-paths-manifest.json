@@ -1,0 +1,22 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/comments/route": "app/api/comments/route.js",
+  "/api/adventures/[id]/route": "app/api/adventures/[id]/route.js",
+  "/api/orders/[id]/route": "app/api/orders/[id]/route.js",
+  "/api/orders/route": "app/api/orders/route.js",
+  "/api/foods/[id]/route": "app/api/foods/[id]/route.js",
+  "/api/rooms/[id]/route": "app/api/rooms/[id]/route.js",
+  "/api/upload/route": "app/api/upload/route.js",
+  "/api/settings/route": "app/api/settings/route.js",
+  "/api/rooms/route": "app/api/rooms/route.js",
+  "/api/foods/route": "app/api/foods/route.js",
+  "/api/adventures/route": "app/api/adventures/route.js",
+  "/horse/page": "app/horse/page.js",
+  "/order-track/page": "app/order-track/page.js",
+  "/restaurant/page": "app/restaurant/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/page": "app/page.js",
+  "/rooms/[id]/page": "app/rooms/[id]/page.js",
+  "/rooms/page": "app/rooms/page.js",
+  "/checkout/page": "app/checkout/page.js"
+}

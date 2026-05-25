@@ -1,0 +1,416 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* 
+   =========================================
+   1. CSS CUSTOM PROPERTIES
+   ========================================= 
+*/
+/*
+   =========================================
+   DESIGN TOKEN SYSTEM
+   Лекц: CSS Custom Properties — single source of truth
+   Нэг token өөрчлөхөд бүх сайт автоматаар өөрчлөгдөнө
+   =========================================
+*/
+:root {
+    /* ── Brand colors ── */
+    --primary:       #C5A059;
+    --primary-h:     #a8874a;           /* hover */
+    --primary-rgb:   197, 160, 89;      /* rgba() дотор ашиглахад */
+
+    /* ── Base palette ── */
+    --bg-dark:  #0a0a0a;
+    --white:    #ffffff;
+    --dark:     #1a1a1a;
+    --muted:    #a0a0a0;
+
+    /* ── Glassmorphism ── */
+    --glass-bg:       rgba(255, 255, 255, 0.78);
+    --glass-blur:     20px;
+    --glass-border:   rgba(255, 255, 255, 0.50);
+    --glass-shadow:   0 4px 24px rgba(0, 0, 0, 0.07);
+
+    /* ── Shadows (semantic scale) ── */
+    --shadow-sm:   0 2px 8px  rgba(0, 0, 0, 0.06);
+    --shadow-md:   0 8px 24px rgba(0, 0, 0, 0.10);
+    --shadow-lg:   0 20px 50px rgba(0, 0, 0, 0.14);
+    --shadow-xl:   0 36px 80px rgba(0, 0, 0, 0.18);
+    --shadow-gold: 0 8px 28px rgba(var(--primary-rgb), 0.30);
+
+    /* ── Transitions ── */
+    --t-fast:   0.15s ease;
+    --t-base:   0.30s ease;
+    --t-spring: 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* ── Border radii ── */
+    --r-xs:   0.25rem;
+    --r-sm:   0.5rem;
+    --r-md:   0.875rem;
+    --r-lg:   1.5rem;
+    --r-xl:   2rem;
+    --r-pill: 3.125rem;
+
+    /* ── Nav ── */
+    --nav-active:  rgba(var(--primary-rgb), 0.12);
+    --nav-height:  4.5rem;
+
+    /* ── Theme (light default) ── */
+    --bg-primary:   #ffffff;
+    --bg-secondary: #f6f5f2;
+    --bg-tertiary:  #fafaf8;
+    --text-primary:   #1a1a1a;
+    --text-secondary: #666666;
+    --border-color:   rgba(0, 0, 0, 0.08);
+    --card-bg:        #ffffff;
+
+    /* ── Max width ── */
+    --max-w: 100%;
+}
+
+/*
+   Dark mode — зөвхөн token-уудыг override хийнэ
+   Component-уудад юу ч өөрчлөхгүй
+*/
+[data-theme="dark"] {
+    --glass-bg:       rgba(8, 8, 8, 0.82);
+    --glass-border:   rgba(255, 255, 255, 0.07);
+    --glass-shadow:   0 4px 24px rgba(0, 0, 0, 0.45);
+
+    --shadow-sm:  0 2px 8px  rgba(0, 0, 0, 0.25);
+    --shadow-md:  0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg:  0 20px 50px rgba(0, 0, 0, 0.50);
+    --shadow-xl:  0 36px 80px rgba(0, 0, 0, 0.65);
+
+    --bg-primary:   #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-tertiary:  #181818;
+    --text-primary:   #f0f0f0;
+    --text-secondary: #b0b0b0;
+    --border-color:   rgba(255, 255, 255, 0.08);
+    --card-bg:        #111111;
+    --white:          #ffffff;
+    --dark:           #1a1a1a;
+    --nav-active:     rgba(var(--primary-rgb), 0.18);
+}
+
+/*
+   =========================================
+   2. GLOBAL RESET & BASE STYLES
+   =========================================
+*/
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+/* Selection color — brand token ашиглана */
+::selection {
+    background: rgba(var(--primary-rgb), 0.22);
+    color: inherit;
+}
+
+/* Thin gold scrollbar */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: rgba(var(--primary-rgb), 0.5);
+    border-radius: var(--r-pill);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background-color var(--t-base), color var(--t-base);
+}
+
+#root {
+    width: 100%;
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; }
+.section-padding { padding: 5rem 1.25rem; text-align: center; }
+
+/* Global Buttons */
+.btn-gold {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.btn-gold:hover {
+    background-color: var(--primary-h);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+.btn-white {
+    background-color: var(--white);
+    color: var(--dark);
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.1);
+}
+
+/*
+   =========================================
+   3. GUEST REVIEW & COMMENT SECTION (GLOBAL)
+   =========================================
+*/
+.review-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.review-form-container {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border-color);
+}
+
+.review-form-container h4 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    display: block;
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--primary);
+}
+
+.rating-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+}
+
+.star {
+    font-size: 1.5rem;
+    color: #444;
+    cursor: pointer;
+}
+
+.star.active {
+    color: var(--primary);
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.review-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    text-align: left;
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.review-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.review-stars {
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.review-content {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/*
+   =========================================
+   MOBILE BOTTOM NAVIGATION (App-like)
+   =========================================
+*/
+.bottom-nav {
+    display: none; /* desktop-т харагдахгүй */
+}
+
+@media (max-width: 900px) {
+    /* Page content-ийг bottom nav-аас өөд байлгана */
+    .app-wrapper {
+        padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    }
+
+    .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1200;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--glass-border);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        padding-bottom: env(safe-area-inset-bottom);
+        height: calc(64px + env(safe-area-inset-bottom));
+    }
+
+    [data-theme="dark"] .bottom-nav {
+        background: rgba(10, 10, 10, 0.92);
+        border-top-color: rgba(255,255,255,0.07);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+    }
+
+    .bottom-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        padding: 8px 4px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: color var(--t-fast), transform var(--t-fast);
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .bottom-nav-item--active {
+        color: var(--primary);
+    }
+
+    .bottom-nav-item:active { transform: scale(0.92); }
+
+    .bottom-nav-icon {
+        font-size: 1.4rem;
+        line-height: 1;
+        position: relative;
+        display: block;
+    }
+
+    .bottom-nav-label {
+        display: block;
+        line-height: 1;
+    }
+
+    .bottom-nav-badge {
+        position: absolute;
+        top: -5px;
+        right: -8px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 0.58rem;
+        font-weight: 800;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 99px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        border: 1.5px solid var(--bg-primary);
+    }
+
+    /* Header-т "Book Now" товчийг нуух — bottom nav хангана */
+    .book-now-btn { display: none !important; }
+
+    /* Header padding бага */
+    .header { padding: 0 1rem; }
+
+    /* Footer утсан дээр нуух — bottom nav хангана */
+    .footer { display: none; }
+
+    /* Cart drawer full-screen on mobile */
+    .cart-drawer {
+        width: 100% !important;
+        right: -100% !important;
+        border-radius: 0;
+    }
+    .cart-drawer.open { right: 0 !important; }
+}
+

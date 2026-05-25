@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+/*
+========================================
+ENUMS
+========================================
+*/
+
+enum FoodCategory {
+  MAIN_DISH
+  DRINK
+  DESSERT
+  DAIRY
+  SHOP
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum ItemType {
+  ROOM
+  FOOD
+  ADVENTURE
+}
+
+/*
+========================================
+ROOMS
+========================================
+*/
+
+model Room {
+  id               Int       @id @default(autoincrement())
+
+  title            String
+  description      String
+
+  price            Float
+
+  image            String
+
+  wifi             Boolean   @default(false)
+  heating          Boolean   @default(false)
+  airConditioning  Boolean   @default(false)
+  breakfast        Boolean   @default(false)
+  kitchen          Boolean   @default(false)
+
+  maxAdults        Int       @default(1)
+  maxChildren      Int       @default(0)
+
+  featured         Boolean   @default(false)
+
+  comments         Comment[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+/*
+========================================
+FOODS
+========================================
+*/
+
+model Food {
+  id               Int            @id @default(autoincrement())
+
+  title            String
+  description      String
+
+  price            Float
+
+  image            String
+
+  category         FoodCategory
+
+  size             String?
+
+  stock            Int            @default(0)
+
+  featured         Boolean        @default(false)
+
+  comments         Comment[]
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+/*
+========================================
+ADVENTURES
+========================================
+*/
+
+model Adventure {
+  id               Int       @id @default(autoincrement())
+
+  title            String
+  description      String
+
+  price            Float
+
+  image            String
+
+  maxPersons       Int       @default(10)
+
+  featured         Boolean   @default(false)
+
+  comments         Comment[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+/*
+========================================
+ORDERS
+========================================
+*/
+
+model Order {
+  id               Int            @id @default(autoincrement())
+
+  customerName     String
+
+  email            String
+
+  phone            String
+
+  totalAmount      Float
+
+  status           OrderStatus    @default(PENDING)
+
+  items            OrderItem[]
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+/*
+========================================
+ORDER ITEMS
+========================================
+*/
+
+model OrderItem {
+  id               Int        @id @default(autoincrement())
+
+  orderId          Int
+
+  itemType         ItemType
+
+  itemId           Int
+
+  title            String
+
+  quantity         Int        @default(1)
+
+  price            Float
+
+  order            Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime @default(now())
+
+  @@index([orderId])
+}
+
+/*
+========================================
+COMMENTS
+========================================
+*/
+
+model Comment {
+  id               Int @id @default(autoincrement())
+
+  userName         String
+
+  content          String
+
+  rating           Int
+
+  roomId           Int?
+  foodId           Int?
+  adventureId      Int?
+
+  room             Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  food             Food? @relation(fields: [foodId], references: [id], onDelete: Cascade)
+
+  adventure        Adventure? @relation(fields: [adventureId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime @default(now())
+
+  @@index([roomId])
+
+  @@index([foodId])
+
+  @@index([adventureId])
+}
+
+/*
+========================================
+SETTINGS (key-value store for admin config)
+========================================
+*/
+
+model Setting {
+  key   String @id
+  value String
+}

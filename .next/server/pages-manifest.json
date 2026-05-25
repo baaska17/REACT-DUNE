@@ -1,0 +1,12 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/Checkout": "pages/Checkout.js",
+  "/Home": "pages/Home.js",
+  "/RoomDetails": "pages/RoomDetails.js",
+  "/OrderTrack": "pages/OrderTrack.js",
+  "/HorseRide": "pages/HorseRide.js",
+  "/Restaurant": "pages/Restaurant.js",
+  "/Rooms": "pages/Rooms.js",
+  "/_document": "pages/_document.js"
+}

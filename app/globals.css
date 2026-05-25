@@ -1,0 +1,13 @@
+/* Clear Next.js default styles to use original project styles */
+html, body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* iOS: input-д 16px доош font-size тавибал zoom хийдэг — хориглоно */
+@media (max-width: 600px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
