@@ -1,6 +1,5 @@
 import { headers } from 'next/headers';
 import '../src/index.css'
-import '../src/App.css'
 import '../src/styles/Home.css'
 import '../src/styles/res.css'
 import '../src/styles/room.css'

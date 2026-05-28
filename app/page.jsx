@@ -85,24 +85,6 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="stats-row">
-          <div className="stat-item">
-            <strong>500+</strong>
-            <span>Happy guests</span>
-          </div>
-          <div className="stat-item">
-            <strong>4.9★</strong>
-            <span>Average rating</span>
-          </div>
-          <div className="stat-item">
-            <strong>3+</strong>
-            <span>Years open</span>
-          </div>
-          <div className="stat-item">
-            <strong>24/7</strong>
-            <span>Support</span>
-          </div>
-        </div>
 
         <div className="trust-badges">
           <span>✓ Instant confirmation</span>

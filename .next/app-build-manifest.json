@@ -11,6 +11,21 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
+    "/horse/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/horse/page.js"
+    ],
+    "/api/adventures/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/adventures/route.js"
+    ],
+    "/api/comments/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/comments/route.js"
+    ],
     "/restaurant/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,20 +36,40 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/foods/route.js"
     ],
-    "/horse/page": [
+    "/rooms/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/horse/page.js"
+      "static/chunks/app/rooms/page.js"
     ],
-    "/api/comments/route": [
+    "/api/rooms/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/comments/route.js"
+      "static/chunks/app/api/rooms/route.js"
     ],
-    "/api/adventures/route": [
+    "/order-track/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/adventures/route.js"
+      "static/chunks/app/order-track/page.js"
+    ],
+    "/checkout/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/checkout/page.js"
+    ],
+    "/api/settings/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/settings/route.js"
+    ],
+    "/api/orders/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/orders/route.js"
+    ],
+    "/api/orders/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/orders/[id]/route.js"
     ]
   }
 }
