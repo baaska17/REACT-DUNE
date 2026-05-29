@@ -169,6 +169,9 @@ export async function POST(request) {
                   parseInt(
                     item.quantity
                   ) || 1,
+
+                checkin: item.bookingDates?.checkin || null,
+                checkout: item.bookingDates?.checkout || null,
               })
             ),
           },

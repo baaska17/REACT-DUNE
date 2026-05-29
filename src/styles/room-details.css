@@ -1,20 +1,11 @@
+/**
+ * Өрөөний дэлгэрэнгүй хуудасны стиль (Room Details CSS) - Baaska
+ * Зургийн галерей, тоноглолуудын жагсаалт болон захиалгын картын загварыг агуулна.
+ */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-:root {
-    --primary: #C5A059;
-    --primary-h: #a8874a;
-    --white: #ffffff;
-    --page-bg: var(--bg-primary);
-    --text-main: var(--text-primary);
-    --text-soft: var(--text-secondary);
-    --border: var(--border-color);
-    --card-bg-details: var(--card-bg);
-    --r-lg: 16px;
-}
-
-/* 
-   BASE PAGE 
-*/
+/* ── 1. ҮНДСЭН ХУУДАС ── */
 .room-detail-page {
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -23,32 +14,18 @@
     padding-bottom: 5rem;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* 
-   CONTAINER: 
-*/
 .room-details-container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem;
 }
 
-/* Header */
+/* Өрөөний гарчиг болон мэдээлэл */
 .room-details-header { margin-bottom: 2rem; }
-.room-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    letter-spacing: -1px;
-}
-.room-meta-info {
-    display: flex;
-    gap: 15px;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
+.room-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -1px; }
+.room-meta-info { display: flex; gap: 15px; font-size: 0.95rem; color: var(--text-secondary); }
 
-/* GALLERY */
+/* ── 2. ГАЛЕРЕЙ (1 LARGE, 2 SMALL) ── */
 .room-details-gallery {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -59,169 +36,75 @@
     overflow: hidden;
 }
 
-.gallery-main-frame { height: 100%; background: var(--bg-secondary); }
-.gallery-side-frame {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 12px;
+/* Зүүн талын том зураг */
+.gallery-main-frame { height: 100%; background: var(--bg-secondary); overflow: hidden; }
+
+/* Баруун талын жижиг зургууд */
+.gallery-side-frame { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
+.gallery-thumb, .gallery-thumb-placeholder {
+    flex: 1; height: 0; min-height: calc(50% - 6px);
+    overflow: hidden; background: var(--bg-secondary); border-radius: 8px;
+    cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent;
 }
+.gallery-thumb.active { border-color: var(--primary); }
 
-.room-details-gallery img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.5s ease;
-}
+.room-details-gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.gallery-thumb:hover img, .gallery-main-frame:hover img { transform: scale(1.05); }
 
-.room-details-gallery img:hover { transform: scale(1.03); }
+/* ── 3. КОНТЕНТ БАЙРШИЛ (Layout) ── */
+.room-details-content { display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: start; }
+.room-section { margin-bottom: 4rem; }
+.room-section h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; color: var(--text-primary); }
+.room-section p { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); }
 
-/* CONTENT LAYOUT */
-.room-details-content {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 4rem;
-    align-items: start;
-}
-
-.room-section {
-    margin-bottom: 4rem;
-}
-
-.room-section h2 {
-    font-size: 1.6rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
-.room-section p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: var(--text-secondary);
-}
-
-/* Amenities */
-.amenities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-}
-
-.amenity-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.05rem;
-    color: var(--text-primary);
-}
-
+/* Тоноглолууд */
+.amenities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+.amenity-item { display: flex; align-items: center; gap: 12px; font-size: 1.05rem; color: var(--text-primary); }
 .amenity-item .icon-box {
-    width: 40px;
-    height: 40px;
-    background: rgba(197, 160, 89, 0.1);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    font-size: 1.2rem;
+    width: 40px; height: 40px; background: rgba(197, 160, 89, 0.1);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 1.2rem;
 }
 
-/* BOOKING CARD */
+/* ── 4. ЗАХИАЛГЫН КАРТ (Sticky Booking Card) ── */
 .sticky-booking-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--r-lg);
-    padding: 2.5rem;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 100px;
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--r-lg);
+    padding: 2.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    position: sticky; top: 100px;
 }
+[data-theme="dark"] .sticky-booking-card { background: #1a1a1a !important; border-color: rgba(255, 255, 255, 0.08); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); }
 
-.booking-price-header .amount {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.booking-box {
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    margin: 1.5rem 0;
-    overflow: hidden;
-    background: var(--bg-secondary);
-}
-
+.booking-price-header .amount { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+.booking-box { border: 1px solid var(--border-color); border-radius: 14px; margin: 1.5rem 0; overflow: hidden; background: var(--bg-secondary); }
 .booking-item { padding: 12px 15px; }
-.booking-item label {
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: var(--primary);
-    display: block;
-    margin-bottom: 4px;
-}
+.booking-item label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 4px; }
 
+/* Захиалах товч */
 .reserve-button {
-    width: 100%;
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 1.2rem;
-    border-radius: 14px;
-    font-size: 1.15rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.3s;
+    width: 100%; background: var(--primary); color: white; border: none;
+    padding: 1.2rem; border-radius: var(--r-pill); font-size: 1.15rem;
+    font-weight: 800; cursor: pointer; transition: 0.3s;
 }
-
 .reserve-button:hover { background: var(--primary-h); }
+.hint { text-align: center; margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary); }
 
-.hint {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-/* Lightbox */
+/* ── 5. LIGHTBOX (Зургийг томоор үзэх) ── */
 .image-lightbox {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    cursor: pointer;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center;
+    z-index: 2000; cursor: pointer;
 }
+.image-lightbox img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+.close-x { position: absolute; top: 30px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
 
-.image-lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-}
-
-.close-x {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    color: white;
-    font-size: 3rem;
-    cursor: pointer;
-}
-
-/* Responsive */
+/* ── 6. RESPONSIVE ── */
 @media (max-width: 1024px) {
     .room-details-content { grid-template-columns: 1fr; gap: 3rem; }
     .sticky-booking-card { position: static; max-width: 100%; margin: 0 auto; }
 }
-
 @media (max-width: 768px) {
     .room-title { font-size: 2rem; }
     .room-details-gallery { height: 400px; grid-template-columns: 1fr; }
-    .gallery-side-frame { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+    .gallery-side-frame { display: none; }
 }

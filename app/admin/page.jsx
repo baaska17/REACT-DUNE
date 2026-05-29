@@ -105,13 +105,20 @@ export default function AdminPage() {
 
   const [imageFile, setImageFile]       = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+
+  const [imageFile2, setImageFile2]       = useState(null);
+  const [imagePreview2, setImagePreview2] = useState(null);
+
+  const [imageFile3, setImageFile3]       = useState(null);
+  const [imagePreview3, setImagePreview3] = useState(null);
   const [isUploading, setIsUploading]   = useState(false);
   const [settingsSaved, setSettingsSaved] = useState(false);
 
   const [roomForm, setRoomForm] = useState({
     title: '', description: '', price: '', image: '',
+    image2: '', image3: '', mainImageIndex: 1,
     wifi: false, heating: false, airConditioning: false,
-    breakfast: false, kitchen: false,
+    breakfast: false, kitchen: false, totalUnits: 1,
     maxAdults: 1, maxChildren: 0, featured: false,
   });
   const [foodForm, setFoodForm] = useState({
@@ -207,12 +214,13 @@ export default function AdminPage() {
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = async () => {
-    if (!imageFile) return null;
+  const uploadImage = async (fileToUpload) => {
+    const file = fileToUpload || imageFile;
+    if (!file) return null;
     setIsUploading(true);
     try {
       const fd = new FormData();
-      fd.append('file', imageFile);
+      fd.append('file', file);
       const res  = await fetch('/api/upload', { method: 'POST', body: fd });
       const data = await res.json();
       return data.filename;
@@ -221,7 +229,7 @@ export default function AdminPage() {
   };
 
   const FOOD_EMPTY = { title: '', description: '', price: '', image: '', category: 'MAIN_DISH', size: '', stock: 0, featured: false };
-  const ROOM_EMPTY = { title: '', description: '', price: '', image: '', wifi: false, heating: false, airConditioning: false, breakfast: false, kitchen: false, maxAdults: 1, maxChildren: 0, featured: false };
+  const ROOM_EMPTY = { title: '', description: '', price: '', image: '', image2: '', image3: '', mainImageIndex: 1, wifi: false, heating: false, airConditioning: false, breakfast: false, kitchen: false, totalUnits: 1, maxAdults: 1, maxChildren: 0, featured: false };
   const ADV_EMPTY  = { title: '', description: '', price: '', image: '', maxPersons: 10, featured: false };
 
   const startEditFood = (item) => {
@@ -233,10 +241,35 @@ export default function AdminPage() {
 
   const startEditRoom = (item) => {
     setEditingRoom(item);
-    setRoomForm({ title: item.title, description: item.description, price: item.price, image: item.image, wifi: item.wifi, heating: item.heating, airConditioning: item.airConditioning, breakfast: item.breakfast, kitchen: item.kitchen, maxAdults: item.maxAdults, maxChildren: item.maxChildren, featured: item.featured });
+    setRoomForm({
+      title: item.title,
+      description: item.description,
+      price: item.price,
+      image: item.image,
+      image2: item.image2 || '',
+      image3: item.image3 || '',
+      mainImageIndex: item.mainImageIndex || 1,
+      wifi: item.wifi,
+      heating: item.heating,
+      airConditioning: item.airConditioning,
+      breakfast: item.breakfast,
+      kitchen: item.kitchen,
+      totalUnits: item.totalUnits || 1,
+      maxAdults: item.maxAdults,
+      maxChildren: item.maxChildren,
+      featured: item.featured
+    });
     setImageFile(null); setImagePreview(null);
+    setImageFile2(null); setImagePreview2(null);
+    setImageFile3(null); setImagePreview3(null);
   };
-  const cancelEditRoom = () => { setEditingRoom(null); setRoomForm(ROOM_EMPTY); setImageFile(null); setImagePreview(null); };
+  const cancelEditRoom = () => {
+    setEditingRoom(null);
+    setRoomForm(ROOM_EMPTY);
+    setImageFile(null); setImagePreview(null);
+    setImageFile2(null); setImagePreview2(null);
+    setImageFile3(null); setImagePreview3(null);
+  };
 
   const startEditAdventure = (item) => {
     setEditingAdventure(item);
@@ -247,10 +280,13 @@ export default function AdminPage() {
 
   const submitRoom = async (e) => {
     e.preventDefault();
-    const image  = imageFile ? await uploadImage() : roomForm.image;
+    const image  = imageFile ? await uploadImage(imageFile) : roomForm.image;
+    const image2 = imageFile2 ? await uploadImage(imageFile2) : roomForm.image2;
+    const image3 = imageFile3 ? await uploadImage(imageFile3) : roomForm.image3;
+
     const url    = editingRoom ? `/api/rooms/${editingRoom.id}` : '/api/rooms';
     const method = editingRoom ? 'PUT' : 'POST';
-    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...roomForm, image }) });
+    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...roomForm, image, image2, image3 }) });
     if (res.ok) { cancelEditRoom(); fetchData(); }
   };
 
@@ -482,9 +518,10 @@ export default function AdminPage() {
                 <Field t={t} label="Өрөөний нэр"   value={roomForm.title}       onChange={(e) => setRoomForm({ ...roomForm, title: e.target.value })} />
                 <FieldArea t={t} label="Тайлбар"    value={roomForm.description} onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })} />
                 <Field t={t} label="Үнэ (₮)" type="number" value={roomForm.price} onChange={(e) => setRoomForm({ ...roomForm, price: parseFloat(e.target.value) })} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <Field t={t} label="Хамгийн их насанд хүрэгч" type="number" value={roomForm.maxAdults}   onChange={(e) => setRoomForm({ ...roomForm, maxAdults: parseInt(e.target.value) })} />
-                  <Field t={t} label="Хамгийн их хүүхэд"        type="number" value={roomForm.maxChildren} onChange={(e) => setRoomForm({ ...roomForm, maxChildren: parseInt(e.target.value) })} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                  <Field t={t} label="Нийт гэр (тоо)" type="number" value={roomForm.totalUnits} onChange={(e) => setRoomForm({ ...roomForm, totalUnits: parseInt(e.target.value) || 1 })} />
+                  <Field t={t} label="Насанд хүрэгч" type="number" value={roomForm.maxAdults}   onChange={(e) => setRoomForm({ ...roomForm, maxAdults: parseInt(e.target.value) })} />
+                  <Field t={t} label="Хүүхэд"        type="number" value={roomForm.maxChildren} onChange={(e) => setRoomForm({ ...roomForm, maxChildren: parseInt(e.target.value) })} />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   <FieldCheck t={t} checked={roomForm.wifi}           onChange={(e) => setRoomForm({ ...roomForm, wifi: e.target.checked })}           label="WiFi" />
@@ -493,7 +530,58 @@ export default function AdminPage() {
                   <FieldCheck t={t} checked={roomForm.breakfast}      onChange={(e) => setRoomForm({ ...roomForm, breakfast: e.target.checked })}      label="Өглөөний цай" />
                   <FieldCheck t={t} checked={roomForm.kitchen}        onChange={(e) => setRoomForm({ ...roomForm, kitchen: e.target.checked })}        label="Гал тогоо" />
                 </div>
-                <ImageUpload t={t} imagePreview={imagePreview} handleImageChange={handleImageChange} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                  <ImageUpload
+                    t={t}
+                    label="Зураг 1"
+                    imagePreview={imagePreview || roomForm.image}
+                    handleImageChange={handleImageChange}
+                  />
+                  <ImageUpload
+                    t={t}
+                    label="Зураг 2"
+                    imagePreview={imagePreview2 || roomForm.image2}
+                    handleImageChange={(e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      setImageFile2(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => setImagePreview2(reader.result);
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                  <ImageUpload
+                    t={t}
+                    label="Зураг 3"
+                    imagePreview={imagePreview3 || roomForm.image3}
+                    handleImageChange={(e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      setImageFile3(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => setImagePreview3(reader.result);
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.8rem', color: t.textMuted }}>Нүүрэнд харагдах зураг сонгох:</label>
+                  <div style={{ display: 'flex', gap: '20px' }}>
+                    {[1, 2, 3].map((idx) => (
+                      <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.85rem', color: t.text }}>
+                        <input
+                          type="radio"
+                          name="mainImageIndex"
+                          checked={roomForm.mainImageIndex === idx}
+                          onChange={() => setRoomForm({ ...roomForm, mainImageIndex: idx })}
+                        />
+                        Зураг {idx}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
                 <SaveBtn isUploading={isUploading} isEditing={!!editingRoom} onCancel={cancelEditRoom} />
               </form>
             </FormCard>
@@ -706,6 +794,14 @@ function StatCard({ t, icon: Icon, label, value, accent }) {
 }
 
 function InventoryTable({ t, title, items, type, deleteItem, onEdit, editingId }) {
+  const getDisplayImg = (item) => {
+    if (type === 'room') {
+      if (item.mainImageIndex === 2 && item.image2) return item.image2;
+      if (item.mainImageIndex === 3 && item.image3) return item.image3;
+    }
+    return item.image;
+  };
+
   return (
     <section style={{ background: t.card, borderRadius: '22px', padding: '28px', border: `1px solid ${t.border}` }}>
       <h2 style={{ marginBottom: '22px', color: t.text }}>{title}</h2>
@@ -714,7 +810,7 @@ function InventoryTable({ t, title, items, type, deleteItem, onEdit, editingId }
           <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: editingId === item.id ? 'rgba(197,160,89,0.07)' : t.item, padding: '13px 14px', borderRadius: '12px', marginBottom: '9px', border: editingId === item.id ? '1px solid rgba(197,160,89,0.4)' : `1px solid ${t.border}` }}>
             <div style={{ display: 'flex', gap: '13px', alignItems: 'center', flex: 1, minWidth: 0 }}>
               <img
-                src={item.image.startsWith('/') ? item.image : `/${item.image}`}
+                src={getDisplayImg(item).startsWith('/') ? getDisplayImg(item) : `/${getDisplayImg(item)}`}
                 alt=""
                 style={{ width: '56px', height: '56px', borderRadius: '9px', objectFit: 'cover', flexShrink: 0 }}
               />
@@ -807,15 +903,15 @@ function FieldCheck({ t, label, ...props }) {
   );
 }
 
-function ImageUpload({ t, imagePreview, handleImageChange }) {
+function ImageUpload({ t, imagePreview, handleImageChange, label = "Зураг оруулах" }) {
   return (
     <div>
-      <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.78rem', color: t.textMuted }}>Зураг оруулах</label>
-      <div style={{ border: `2px dashed ${t.border2}`, borderRadius: '14px', padding: '18px', textAlign: 'center', position: 'relative', cursor: 'pointer' }}>
-        <input type="file" accept="image/*" onChange={handleImageChange} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} />
+      <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.78rem', color: t.textMuted }}>{label}</label>
+      <div style={{ border: `2px dashed ${t.border2}`, borderRadius: '14px', padding: '18px', textAlign: 'center', position: 'relative', cursor: 'pointer', minHeight: '120px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <input type="file" accept="image/*" onChange={handleImageChange} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', zIndex: 10 }} />
         {imagePreview
-          ? <img src={imagePreview} alt="" style={{ maxWidth: '100%', maxHeight: '140px', borderRadius: '10px' }} />
-          : <div><ImageIcon size={28} color={t.textMuted} /><div style={{ marginTop: '7px', color: t.textMuted, fontSize: '0.78rem' }}>JPG, PNG эсвэл WEBP оруулна уу</div></div>
+          ? <img src={imagePreview.startsWith('data:') ? imagePreview : (imagePreview.startsWith('/') ? imagePreview : `/${imagePreview}`)} alt="" style={{ maxWidth: '100%', maxHeight: '100px', borderRadius: '10px', objectFit: 'cover' }} />
+          : <div><ImageIcon size={24} color={t.textMuted} /><div style={{ marginTop: '4px', color: t.textMuted, fontSize: '0.65rem' }}>Сонгох</div></div>
         }
       </div>
     </div>

@@ -1,25 +1,28 @@
-/* Room Selection Page Styles */
+/**
+ * Өрөө сонгох хуудасны стиль (Rooms Page CSS) - Baaska
+ * Орон сууцны жагсаалт, картуудын бүтэц, захиалгын тоолуур зэргийг удирдана.
+ */
+
+/* ── 1. ҮНДСЭН ХУУДАС ── */
 .rooms-page {
     background-color: var(--bg-primary);
     min-height: 100vh;
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* Dark mode explicit overrides — CSS variable cascade дангаараа найдахгүй */
 [data-theme="dark"] .rooms-page { background-color: #0a0a0a; }
 
 .room-selection-container {
     padding: 4rem 1.5rem 6rem;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
+/* Хуудасны толгой */
 .selection-header {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
     text-align: center;
 }
-
 .selection-header h1 {
     font-size: 3rem;
     font-weight: 800;
@@ -28,344 +31,82 @@
     letter-spacing: -1px;
 }
 
-.booking-summary {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    font-size: 1rem;
-    color: #555;
-    background: rgba(197, 160, 89, 0.07);
-    padding: 1.2rem 2.5rem;
-    border-radius: 16px;
-    width: fit-content;
-    margin: 1.5rem auto 0;
-    border: 1px solid rgba(197, 160, 89, 0.35);
-}
-
-[data-theme="dark"] .booking-summary {
-    background: rgba(197, 160, 89, 0.08);
-    border-color: rgba(197, 160, 89, 0.3);
-    color: rgba(255, 255, 255, 0.55);
-}
-
-.booking-summary strong {
-    color: #1a1a1a;
-    margin-right: 6px;
-}
-
-[data-theme="dark"] .booking-summary strong { color: rgba(255, 255, 255, 0.9); }
-
-.summary-value { color: var(--primary); font-weight: 600; }
-
-/* Glass Panel Style */
-.glass-panel {
-    background: var(--card-bg) !important;
+/* ── 2. ХАЙЛТЫН ФОРМ (Booking Form in Rooms) ── */
+.rooms-booking-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 20px;
     border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
+[data-theme="dark"] .rooms-booking-container { background: #1a1a1a; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 
-/* Room Cards */
-.room-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
+/* Хайлтын талбарууд (Horizontal) */
+.rooms-booking-container .booking-form-vertical { display: flex; flex-direction: row; gap: 1rem; align-items: flex-end; }
+.rooms-booking-container .booking-field {
+    flex: 1; display: flex; flex-direction: column; gap: 0.5rem; text-align: left;
+    background: #f8f8f8; padding: 0.8rem 1.2rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.06);
 }
+[data-theme="dark"] .rooms-booking-container .booking-field { background: #252525; border-color: rgba(255, 255, 255, 0.07); }
+.rooms-booking-container .booking-field label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
 
+.rooms-booking-container .booking-field input,
+.rooms-booking-container .booking-field select { background: transparent; border: none; outline: none; font-size: 1rem; font-weight: 600; color: var(--text-primary); width: 100%; }
+
+/* Dark Mode Dropdown засах */
+[data-theme="dark"] .rooms-booking-container .booking-field select option { background-color: #1a1a1a; color: #ffffff; }
+
+.rooms-booking-container .booking-search-btn-gold { flex: 0 0 180px; height: 58px; margin-top: 0 !important; border-radius: var(--r-pill) !important; padding: 0 !important; font-size: 1rem !important; }
+
+/* ── 3. ӨРӨӨНИЙ КАРТ (Global Standard Layout) ── */
+.room-list { display: flex; flex-direction: column; gap: 2.5rem; }
 .room-card {
-    border-radius: 24px;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 24px; display: flex; flex-direction: row; overflow: hidden;
+    background: var(--card-bg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
+    height: 340px; /* Глобал тогтмол өндөр */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+[data-theme="dark"] .room-card { background: #1a1a1a !important; border-color: rgba(255, 255, 255, 0.07); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); }
+.room-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
 
-[data-theme="dark"] .room-card {
-    background: #1a1a1a !important;
-    border-color: rgba(255, 255, 255, 0.07);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-}
-
-.room-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-}
-
-[data-theme="dark"] .room-card:hover {
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-}
-
-/* Image Side */
-.room-image-side {
-    position: relative;
-    flex: 0 0 380px;
-    overflow: hidden;
-    background: var(--bg-secondary);
-}
-
-.room-image-side img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.room-card:hover .room-image-side img {
-    transform: scale(1.08);
-}
-
+/* Зургийн хэсэг (Зүүн тал) */
+.room-image-side { position: relative; flex: 0 0 320px; height: 100%; overflow: hidden; }
+.room-image-side img { width: 100%; height: 100%; object-fit: cover; }
 .room-details-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: var(--primary);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-    z-index: 2;
-    border: none;
+    position: absolute; bottom: 15px; left: 15px; background: var(--primary); color: white;
+    padding: 8px 16px; border-radius: var(--r-pill); font-size: 0.85rem; font-weight: 700; text-decoration: none; z-index: 2;
 }
 
-.room-details-btn:hover {
-    background: var(--primary-h);
-    transform: scale(1.05);
-}
+/* Мэдээллийн хэсэг (Дунд тал) */
+.room-info-side { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.room-details-top h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge-included { display: inline-block; background: rgba(34, 197, 94, 0.1); color: #16a34a; padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+.room-description-short { font-size: 0.95rem; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0.5rem; }
+.availability-badge { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; }
 
-/* Info Side */
-.room-info-side {
-    flex: 1;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: transparent;
-}
+/* Тоолуур болон Захиалах товч */
+.room-controls { display: flex; align-items: center; gap: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); }
+.counter-group label { display: block; font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight: 700; text-transform: uppercase; }
+.counter { display: flex; align-items: center; background: var(--bg-secondary); padding: 4px; border-radius: 12px; }
+[data-theme="dark"] .counter { background: #252525; }
+.counter button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); cursor: pointer; transition: all 0.2s ease; }
+[data-theme="dark"] .counter button { background: #333333; color: #ffffff; border-color: rgba(255, 255, 255, 0.1); }
+.counter button:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.counter span { width: 35px; text-align: center; font-weight: 700; }
 
-[data-theme="dark"] .room-info-side { background: transparent; }
+/* Үнийн хэсэг (Баруун тал) */
+.room-price-side { flex: 0 0 220px; background: var(--bg-secondary); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; text-align: center; }
+[data-theme="dark"] .room-price-side { background: #111111; }
+.total-price { font-size: 2.2rem; font-weight: 900; color: var(--primary); line-height: 1; }
+.per-night { font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem; }
 
-.room-details-top h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 0.75rem;
-    color: var(--text-primary);
-}
-
-.badge-included {
-    display: inline-block;
-    background: rgba(22, 163, 74, 0.1);
-    color: #16a34a;
-    padding: 6px 14px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-}
-
-.room-features {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-}
-
-.room-features li {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Controls */
-.room-controls {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 2.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-}
-
-.counter-group label {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.counter {
-    display: flex;
-    align-items: center;
-    background: #f0f0f0;
-    padding: 6px;
-    border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .counter {
-    background: #252525;
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.counter button {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: #ffffff;
-    color: #1a1a1a;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-[data-theme="dark"] .counter button {
-    background: #333333;
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.counter button:hover {
-    background: #f0f0f0;
-    transform: scale(1.05);
-}
-
-[data-theme="dark"] .counter button:hover {
-    background: #444444;
-}
-
-.counter span {
-    width: 45px;
-    text-align: center;
-    font-weight: 800;
-    color: var(--text-primary);
-}
-
-/* Price Side */
-.room-price-side {
-    flex: 0 0 240px;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #f8f8f8;
-    border-left: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-[data-theme="dark"] .room-price-side {
-    background: #111111;
-    border-left-color: rgba(255, 255, 255, 0.07);
-}
-
-.total-price {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--primary);
-    line-height: 1;
-}
-
-.per-night {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-top: 0.5rem;
-}
-
-.max-guests {
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 1100px) {
-    .room-image-side { flex: 0 0 300px; }
-}
-
+/* ── 4. RESPONSIVE ── */
 @media (max-width: 992px) {
-    .room-card { flex-direction: column; }
+    .room-card { flex-direction: column; height: auto; }
     .room-image-side { width: 100%; height: 260px; flex: none; }
-    .room-info-side { border-right: none; }
-    .room-price-side {
-        width: 100%;
-        flex: none;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border-left: none;
-        border-top: 1px solid var(--border-color);
-        padding: 1.25rem 1.5rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .room-selection-container { padding: 1rem 0.75rem 5rem; }
-
-    .selection-header { margin-bottom: 1.5rem; }
-    .selection-header h1 { font-size: 1.8rem; }
-
-    /* Booking summary — vertical stack on small screens */
-    .booking-summary {
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 1rem 1.25rem;
-        text-align: center;
-        width: 100%;
-    }
-
-    .room-card {
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    .room-image-side { height: 220px; }
-
-    .room-info-side { padding: 1.25rem; }
-
-    .room-details-top h2 { font-size: 1.3rem; }
-
-    .room-features { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .room-features li { font-size: 0.85rem; }
-
-    .room-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-        margin-top: 1.5rem;
-        padding-top: 1.25rem;
-    }
-
-    /* Counter row side by side */
-    .room-controls > div:not(.btn-gold) {
-        display: flex;
-        gap: 1rem;
-    }
-    .counter-group { flex: 1; }
-    .counter button { width: 40px; height: 40px; font-size: 1.1rem; }
-    .counter span { font-size: 1rem; }
-
-    /* Book button full width */
-    .room-controls .btn-gold { width: 100%; justify-content: center; padding: 0.9rem; font-size: 0.95rem; }
-
-    .room-price-side {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 1.25rem;
-    }
-    .total-price { font-size: 1.8rem; }
-    .per-night { font-size: 0.85rem; }
-    .max-guests { margin-top: 0; font-size: 0.78rem; }
-
-    /* Room details button */
-    .room-details-btn { padding: 8px 14px; font-size: 0.82rem; }
+    .room-price-side { width: 100%; flex: none; flex-direction: row; justify-content: space-between; align-items: center; border-left: none; border-top: 1px solid var(--border-color); padding: 1.25rem 1.5rem; }
+    .room-booking-container .booking-form-vertical { flex-direction: column; }
+    .room-booking-container .booking-search-btn-gold { width: 100%; }
 }

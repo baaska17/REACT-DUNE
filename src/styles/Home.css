@@ -1,40 +1,29 @@
+/**
+ * Нүүр хуудасны үндсэн стиль (Home Page CSS) - Baaska
+ * Вэбсайтын нүүр хуудасны бүх хэсэг, header, footer болон сагсны загварыг агуулна.
+ */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-/* 
-   =========================================
-   2. GLOBAL RESET & LAYOUT
-   ========================================= 
-*/
+/* ── 1. ГЛОБАЛ ТОХИРГОО (Reset & Base) ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-.app-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-/* Fixed header-н өндрийг нөхнө */
-.app-wrapper > main {
-    padding-top: var(--nav-height);
-}
-
 body {
     background-color: var(--bg-dark);
     color: var(--white);
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
 }
-
+/* Fixed header-ийн өндрийг нөхөж main хэсэгт padding өгөх */
+.app-wrapper > main { padding-top: var(--nav-height); }
 .container { max-width: 95rem; margin: 0 auto; padding: 0 1.5rem; }
 .section-padding { padding: 5rem 0; }
 
-/* Global Buttons */
+/* ── 2. ГЛОБАЛ ТОВЧНУУД (Buttons) ── */
 .btn-gold {
-    background-color: var(--primary);
+    background: var(--primary);
     color: var(--white);
     padding: 0.8rem 1.8rem;
     border-radius: var(--r-pill);
-    text-decoration: none;
     font-weight: 700;
     transition: 0.3s;
     border: none;
@@ -43,15 +32,12 @@ body {
     align-items: center;
     gap: 0.6rem;
 }
-.btn-gold:hover { background-color: var(--primary-h); transform: translateY(-2px); }
+.btn-gold:hover {
+    background: var(--primary-h);
+    transform: translateY(-2px);
+}
 
-/*
-   =========================================
-   3. HEADER & NAVIGATION — Glassmorphism
-   Лекц: CSS custom properties as single source of truth
-   --glass-bg, --glass-blur, --glass-border → token өөрчлөхөд л хангалттай
-   =========================================
-*/
+/* ── 3. HEADER & ЦЭС (Navigation) ── */
 .header {
     display: flex;
     justify-content: space-between;
@@ -59,1223 +45,208 @@ body {
     padding: 0 3.125rem;
     height: var(--nav-height);
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 1000;
     color: var(--dark);
-
-    /* Glassmorphism — token ашиглана */
+    /* Glassmorphism эффект */
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
     border-bottom: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     transition: background var(--t-base), border-color var(--t-base), box-shadow var(--t-base);
 }
+[data-theme="dark"] .header { color: var(--text-primary); }
 
-/* Dark mode: token-ийг override хийсэн тул энд юу ч бичихгүй */
-[data-theme="dark"] .header {
-    color: var(--text-primary);
-}
-.header .logo { 
-    display: flex; align-items: center; gap: 0.75rem; font-weight: 700; 
-    font-size: 1.2rem; cursor: pointer; color: var(--dark); text-decoration: none;
-}
-.header .logo .logo-img { width: 2.5rem; height: 2.5rem; object-fit: contain; border-radius: var(--r-sm); }
+.header .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 700; font-size: 1.2rem; color: var(--dark); text-decoration: none; }
+[data-theme="dark"] .header .logo { color: var(--text-primary); }
+.header .logo-img { width: 2.5rem; height: 2.5rem; object-fit: contain; border-radius: var(--r-sm); }
 
-.header nav.main-nav ul { display: flex; list-style: none; gap: 0.5rem; }
-.header nav.main-nav ul a {
-    text-decoration: none;
-    color: var(--dark);
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: var(--r-pill);
-    transition: background var(--t-fast), color var(--t-fast);
+.main-nav ul { display: flex; list-style: none; gap: 0.5rem; }
+.main-nav a {
+    text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.85rem;
+    padding: 0.6rem 1.2rem; border-radius: var(--r-pill); transition: var(--t-fast);
 }
-.header nav.main-nav ul a.active {
-    background: var(--nav-active);
-    color: var(--primary);
-}
-.header nav.main-nav ul a:hover { background: rgba(var(--primary-rgb), 0.07); }
+[data-theme="dark"] .main-nav a { color: var(--text-primary); }
+.main-nav a.active { background: var(--nav-active); color: var(--primary); }
+.main-nav a:hover { background: rgba(var(--primary-rgb), 0.07); }
 
-.header .header-right { display: flex; align-items: center; gap: 1.25rem; }
-
-.lang-switch {
-    display: flex; background: #f0f0f0; border-radius: var(--r-pill); padding: 2px;
-}
-.lang-switch button {
-    border: none; background: transparent; padding: 0.4rem 0.8rem; border-radius: var(--r-pill);
-    font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.3s; color: var(--dark);
-}
+.header-right { display: flex; align-items: center; gap: 1.25rem; }
+.lang-switch { display: flex; background: #f0f0f0; border-radius: var(--r-pill); padding: 2px; }
+[data-theme="dark"] .lang-switch { background: rgba(255,255,255,0.08); }
+.lang-switch button { border: none; background: transparent; padding: 0.4rem 0.8rem; border-radius: var(--r-pill); font-size: 0.75rem; font-weight: 700; cursor: pointer; color: var(--dark); }
+[data-theme="dark"] .lang-switch button { color: var(--text-secondary); }
 .lang-switch button.active { background: var(--primary); color: white; }
 
-.header-right .cart-icon {
-    position: relative; cursor: pointer; background: #f0f0f0;
-    padding: 0.5rem; border-radius: 50%; color: var(--dark); display: flex;
-}
+/* Сагсны дүрс болон Theme солих товч */
+.cart-icon { position: relative; background: #f0f0f0; padding: 0.5rem; border-radius: 50%; color: var(--dark); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+.theme-toggle { background: #f0f0f0; padding: 0.5rem; border-radius: 50%; color: var(--dark); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; width: 2.5rem; height: 2.5rem; font-size: 1.2rem; transition: 0.3s; }
+[data-theme="dark"] .cart-icon, [data-theme="dark"] .theme-toggle { background: #333333; color: var(--text-primary); }
+.theme-toggle:hover { transform: scale(1.1); }
+.cart-badge { position: absolute; top: -5px; right: -5px; background: #ff4d4d; color: white; font-size: 0.7rem; width: 1.1rem; height: 1.1rem; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
 
-[data-theme="dark"] .header-right .cart-icon {
-    background: #333333;
-    color: var(--text-primary);
-}
-
-.theme-toggle {
-    background: #f0f0f0;
-    border: none;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-[data-theme="dark"] .theme-toggle {
-    background: #333333;
-}
-
-[data-theme="dark"] .header .logo       { color: var(--text-primary); }
-[data-theme="dark"] .header nav.main-nav ul a { color: var(--text-primary); }
-[data-theme="dark"] .header nav.main-nav ul a.active { background: var(--nav-active); color: var(--primary); }
-[data-theme="dark"] .header nav.main-nav ul a:hover  { background: rgba(255,255,255,0.07); }
-[data-theme="dark"] .lang-switch                     { background: rgba(255,255,255,0.08); }
-[data-theme="dark"] .lang-switch button              { color: var(--text-secondary); }
-[data-theme="dark"] .lang-switch button.active       { color: var(--white); background: var(--primary); }
-
-.cart-badge {
-    position: absolute; top: -5px; right: -5px; background: #ff4d4d; color: white;
-    font-size: 0.7rem; width: 1.1rem; height: 1.1rem; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-}
-
-/* 
-   =========================================
-   4. HOME PAGE CONTENT
-   ========================================= 
-*/
-.home-page { flex: 1; }
-
-.hero {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    height: 72vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* YouTube iframe — 16:9 харьцааг хадгалан бүрэн дэлгэц дүүргэнэ */
-.hero-video-bg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* 16:9 aspect: аль нь том бэ тэрийгээ хэрэглэнэ */
-    width: calc(177.78vh);   /* height × 16/9 */
-    height: calc(56.25vw);   /* width  × 9/16 */
-    min-width: 100%;
-    min-height: 100%;
-    pointer-events: none;
-}
-
-.hero-video-bg iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    pointer-events: none;
-}
-
-/* Харанхуй overlay — текст уншигдахуйц болгоно */
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.45) 0%,
-        rgba(0,0,0,0.35) 60%,
-        rgba(0,0,0,0.65) 100%
-    );
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 2rem 1.5rem;
-}
-
+/* ── 4. HERO SECTION ── */
+.hero { position: relative; overflow: hidden; text-align: center; height: 72vh; display: flex; align-items: center; justify-content: center; }
+.hero-video-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 177.78vh; height: 56.25vw; min-width: 100%; min-height: 100%; pointer-events: none; }
+.hero-video-bg iframe { width: 100%; height: 100%; border: none; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.65) 100%); z-index: 1; }
+.hero-content { position: relative; z-index: 2; padding: 2rem 1.5rem; }
 .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1rem; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
-.hero .subtitle { text-transform: uppercase; letter-spacing: 4px; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
+.hero .subtitle { text-transform: uppercase; letter-spacing: 4px; font-size: 0.9rem; color: var(--primary); font-weight: 700; }
 .hero .tagline { font-size: 1.4rem; color: #eee; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
 
-/* Scroll hint */
-.hero-scroll-hint {
-    position: absolute;
-    bottom: 1.6rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    animation: hintBounce 2.2s ease-in-out infinite;
-}
+/* Доошоо гүйлгэх санамж */
+.hero-scroll-hint { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; animation: hintBounce 2.2s infinite; }
+@keyframes hintBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(6px); opacity: 1; } }
 
-.hero-scroll-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-    font-weight: 600;
-}
+/* ── 5. DISCOVERY & BOOKING (Experiences) ── */
+.discovery-booking-wrapper { background: var(--bg-primary); padding: 6rem 0; width: 100%; display: flex; transition: var(--t-base); }
+.combined-container { display: flex; gap: 4rem; align-items: center; width: 100%; margin: 0 2rem 0 2.5rem; }
+.discovery-side, .booking-side { flex: 1; }
 
-.hero-scroll-arrow {
-    font-size: 1.1rem;
-    color: var(--primary);
-}
+.discovery-header { margin-bottom: 2.5rem; text-align: left; }
+.discovery-eyebrow { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--primary); font-weight: 700; margin-bottom: 0.8rem; }
+.discovery-title { font-size: 3.5rem; font-weight: 800; color: var(--text-primary); line-height: 1.1; transition: color var(--t-base); }
 
-@keyframes hintBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
-    50%       { transform: translateX(-50%) translateY(6px); opacity: 1; }
-}
+/* Accordion Gallery (Интерактив хэсэг) */
+.accordion-gallery-simplified { display: flex; gap: 1.2rem; height: 520px; }
+.accordion-panel-simple { position: relative; flex: 1; border-radius: 1.8rem; overflow: hidden; transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1); text-decoration: none; }
+.accordion-panel-simple.active { flex: 3; }
+.accordion-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.8s ease; }
+.accordion-panel-simple.active .accordion-bg { transform: scale(1.05); }
+.accordion-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); transition: background 0.4s ease; }
+.accordion-panel-simple.active .accordion-overlay { background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%); }
+.accordion-label-simple { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; transition: opacity 0.3s ease; }
+.accordion-panel-simple.active .accordion-label-simple { opacity: 0; pointer-events: none; }
+.accordion-label-text { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); color: #fff; font-weight: 700; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; }
+.accordion-content-simple { position: absolute; bottom: 0; left: 0; right: 0; padding: 2.5rem; z-index: 3; opacity: 0; pointer-events: none; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; width: 100%; }
+.accordion-panel-simple.active .accordion-content-simple { opacity: 1; pointer-events: auto; }
+.accordion-content-simple h3, .accordion-content-simple p, .accordion-footer { transform: translateY(80px); opacity: 0; transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.6s ease; }
+.accordion-panel-simple.active .accordion-content-simple h3 { transform: translateY(0); opacity: 1; transition-delay: 0.2s; }
+.accordion-panel-simple.active .accordion-content-simple p { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
+.accordion-panel-simple.active .accordion-content-simple .accordion-footer { transform: translateY(0); opacity: 1; transition-delay: 0.4s; }
+.accordion-content-simple h3 { font-size: 2rem; font-weight: 800; color: #fff !important; margin-bottom: 0.6rem; }
+.accordion-content-simple p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.8rem; line-height: 1.5; max-width: 90%; }
+.accordion-discover-btn { background: var(--primary) !important; color: #fff !important; padding: 0.7rem 1.6rem; border-radius: var(--r-pill); font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; transition: 0.3s; }
+.accordion-discover-btn:hover { background: var(--primary-h) !important; transform: translateX(5px); }
 
-@media (max-width: 768px) {
-    .hero { height: 78vh; }
-    .hero h1 { font-size: 2.5rem; }
-    .hero .tagline { font-size: 1.1rem; }
-}
+/* Босоо захиалгын карт */
+.vertical-booking { background: #fff; border-radius: var(--r-xl); padding: 3.5rem 2.5rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: var(--shadow-lg); transition: var(--t-base); }
+[data-theme="dark"] .vertical-booking { background: #1a1a1a; border-color: rgba(255,255,255,0.08); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+.vertical-booking:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); }
+.vertical-booking .booking-headline { font-size: 2.2rem; margin-bottom: 2.5rem; font-weight: 800; color: #1a1a1a; }
+[data-theme="dark"] .vertical-booking .booking-headline { color: #fff; }
 
-/* 
-   ============================================================
-   NEW DISCOVERY & BOOKING WRAPPER (50/50 SPLIT + THEME ADAPTIVE)
-   ============================================================ 
-*/
-.discovery-booking-wrapper {
-    background-color: var(--bg-primary);
-    padding: 6rem 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    transition: background-color var(--t-base);
-}
+/* Формын талбарууд */
+.booking-form-vertical { display: flex; flex-direction: column; gap: 1rem; }
+.booking-field { background: #f8f8f8; border-radius: var(--r-md); padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.2rem; border: 1px solid rgba(0,0,0,0.06); transition: var(--t-fast); }
+[data-theme="dark"] .booking-field { background: #252525; border-color: rgba(255,255,255,0.07); }
+.booking-field:focus-within { border-color: var(--primary); }
+.booking-field label { font-size: 0.65rem; color: var(--primary); text-transform: uppercase; font-weight: 700; }
+.booking-field input, .booking-field select { background: transparent !important; border: none !important; color: var(--text-primary) !important; font-size: 1rem; font-weight: 600; outline: none; }
+[data-theme="dark"] .booking-field select option { background-color: #1a1a1a; color: #fff; }
+[data-theme="dark"] .booking-field input::-webkit-calendar-picker-indicator { filter: invert(1); }
+.booking-search-btn-gold { background: var(--primary); color: #fff; border: none; border-radius: var(--r-pill); padding: 1.4rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; }
+.booking-search-btn-gold:hover { background: var(--primary-h); }
 
-.combined-container {
-    display: flex;
-    gap: 4rem;
-    align-items: center; 
-    width: 100%;
-    max-width: 100%;
-    margin-left: 2.5rem; 
-    margin-right: 2rem;
-}
-
-.discovery-side {
-    flex: 1; /* 50% split */
-}
-
-.booking-side {
-    flex: 1; /* 50% split */
-    position: static !important; 
-}
-
-/* Discovery Content Styles */
-.discovery-header {
-    margin-bottom: 2.5rem;
-    text-align: left;
-}
-
-.discovery-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--primary);
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-}
-
-.discovery-title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    line-height: 1.1;
-    transition: color var(--t-base);
-}
-
-/* Simplified Accordion */
-.accordion-gallery-simplified {
-    display: flex;
-    gap: 1.2rem;
-    height: 520px;
-}
-
-.accordion-panel-simple {
-    position: relative;
-    flex: 1;
-    border-radius: 1.8rem;
-    overflow: hidden;
-    transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-    text-decoration: none;
-}
-
-.accordion-panel-simple.active {
-    flex: 3;
-}
-
-.accordion-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.8s ease;
-}
-
-.accordion-panel-simple.active .accordion-bg {
-    transform: scale(1.05);
-}
-
-.accordion-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    transition: background 0.4s ease;
-}
-
-.accordion-panel-simple.active .accordion-overlay {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
-}
-
-.accordion-label-simple {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    transition: opacity 0.3s ease;
-}
-
-.accordion-panel-simple.active .accordion-label-simple {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.accordion-label-text {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-/* Hover Content - REFINED STRAIGHT UP ANIMATION */
-.accordion-content-simple {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2.5rem;
-    z-index: 3;
-    opacity: 0;
-    pointer-events: none;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-.accordion-panel-simple.active .accordion-content-simple {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* All 3 panels now move strictly vertically without lateral shifting */
-.accordion-content-simple h3,
-.accordion-content-simple p,
-.accordion-footer {
-    transform: translateY(80px); 
-    opacity: 0;
-    transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.6s ease;
-}
-
-.accordion-panel-simple.active .accordion-content-simple h3 {
-    transform: translateY(0);
-    opacity: 1;
-    transition-delay: 0.2s;
-}
-
-.accordion-panel-simple.active .accordion-content-simple p {
-    transform: translateY(0);
-    opacity: 1;
-    transition-delay: 0.3s;
-}
-
-.accordion-panel-simple.active .accordion-content-simple .accordion-footer {
-    transform: translateY(0);
-    opacity: 1;
-    transition-delay: 0.4s;
-}
-
-.accordion-content-simple h3 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #fff !important;
-    margin-bottom: 0.6rem;
-}
-
-.accordion-content-simple p {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 1.8rem;
-    line-height: 1.5;
-    max-width: 90%;
-}
-
-.accordion-discover-btn {
-    background: var(--primary) !important; 
-    color: #fff !important;
-    padding: 0.7rem 1.6rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: 0.3s;
-}
-
-.accordion-discover-btn:hover {
-    background: var(--primary-h) !important;
-    transform: translateX(5px);
-}
-
-/* Vertical Booking Card — token + explicit dark override */
-.vertical-booking {
-    background: #ffffff;
-    border-radius: var(--r-xl);
-    padding: 3.5rem 2.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: var(--shadow-lg);
-    text-align: left;
-    width: 100%;
-    transition: box-shadow var(--t-base), transform var(--t-base), border-color var(--t-base);
-}
-
-/* Explicit selector — CSS variable cascade-д найдахгүй, тусдаа overrideхийнэ */
-[data-theme="dark"] .vertical-booking {
-    background: #1a1a1a;
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-}
-
-.vertical-booking:hover {
-    box-shadow: var(--shadow-xl);
-    transform: translateY(-4px);
-    border-color: rgba(var(--primary-rgb), 0.2);
-}
-
-.vertical-booking .booking-eyebrow {
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 0.5rem;
-}
-
-[data-theme="dark"] .vertical-booking .booking-eyebrow { color: rgba(255,255,255,0.5); }
-
-.vertical-booking .booking-headline {
-    font-size: 2.2rem;
-    margin-bottom: 2.5rem;
-    font-weight: 800;
-    color: #1a1a1a;
-}
-
-[data-theme="dark"] .vertical-booking .booking-headline { color: #ffffff; }
-
-.booking-form-vertical {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.vertical-booking .booking-field {
-    background: #f8f8f8;
-    border-radius: var(--r-md);
-    padding: 1rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    transition: border-color var(--t-fast);
-}
-
-[data-theme="dark"] .vertical-booking .booking-field {
-    background: #252525;
-    border-color: rgba(255, 255, 255, 0.07);
-}
-
-.vertical-booking .booking-field:focus-within {
-    border-color: var(--primary);
-}
-
-.vertical-booking .booking-field label {
-    font-size: 0.65rem;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-}
-
-.vertical-booking .booking-field input,
-.vertical-booking .booking-field select {
-    background: transparent !important;
-    border: none !important;
-    color: var(--text-primary) !important;
-    font-size: 1rem;
-    font-weight: 600;
-    width: 100%;
-    outline: none;
-    cursor: pointer;
-}
-
-.vertical-booking .booking-field input::-webkit-calendar-picker-indicator {
-    filter: invert(0); 
-}
-
-[data-theme="dark"] .vertical-booking .booking-field input::-webkit-calendar-picker-indicator {
-    filter: invert(1); 
-}
-
-.booking-search-btn-gold {
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 1rem;
-    padding: 1.4rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: 0.3s;
-    width: 100%;
-}
-
-.booking-search-btn-gold:hover {
-    background: var(--primary-h);
-}
-
-/* Why Choose — tokens: нэг газар өөрчилнө, бүх зүйл өөрчлөгдөнө */
-.why-choose {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    text-align: center;
-    padding: 6rem 2rem;
-    width: 100%;
-    overflow: hidden;
-    transition: background-color var(--t-base), color var(--t-base);
-}
-
-.why-choose h2 {
-    font-size: 2.8rem;
-    margin-bottom: 0.75rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    transition: color var(--t-base);
-}
-
-.features-wide {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin: 3.5rem auto 0;
-    width: 100%;
-    max-width: 1280px;
-}
-
-/*
-   Feature box — token-based hover
-   Лекц: CSS custom properties → нэг token өөрчлөхөд бүх card өөрчлөгдөнө
-*/
-.feature-box {
-    background: var(--card-bg);
-    border-radius: var(--r-xl);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1 / 1;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    /* --t-spring token ашигласнаар бүх card transition ижил мэдрэгдэнэ */
-    transition: transform var(--t-spring), box-shadow var(--t-spring), border-color var(--t-base);
-}
-
-/* Gold shimmer overlay — hover-т л харагдана */
-.feature-box::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        ellipse at 50% -10%,
-        rgba(var(--primary-rgb), 0.10) 0%,
-        transparent 65%
-    );
-    opacity: 0;
-    transition: opacity var(--t-base);
-    pointer-events: none;
-}
-
-.feature-box:hover::before { opacity: 1; }
-
-[data-theme="dark"] .feature-box {
-    background: var(--bg-secondary);
-    border-color: var(--border-color);
-}
-
-.feature-box:hover {
-    transform: translateY(-20px) scale(1.02);
-    box-shadow: var(--shadow-xl), var(--shadow-gold);
-    border-color: rgba(var(--primary-rgb), 0.28);
-}
-
-.feature-box .icon-circle {
-    width: 4.5rem; height: 4.5rem;
-    background: var(--dark); color: #fff;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.25rem; font-size: 2.2rem;
-    transition: transform var(--t-spring), background var(--t-base), box-shadow var(--t-base);
-    flex-shrink: 0;
-}
-
-.feature-box:hover .icon-circle {
-    transform: scale(1.18) rotate(6deg);
-    background: var(--primary);
-    box-shadow: var(--shadow-gold);
-}
-
-.feature-box h3 {
-    font-size: 1.35rem; font-weight: 800; margin-bottom: 0.75rem;
-    color: var(--text-primary);
-    transition: color var(--t-base);
-}
+/* ── 6. WHY CHOOSE ХЭСЭГ ── */
+.why-choose { background: var(--bg-secondary); color: var(--text-primary); text-align: center; padding: 6rem 2rem; transition: var(--t-base); }
+.why-choose h2 { font-size: 2.8rem; font-weight: 800; margin-bottom: 0.75rem; }
+.features-wide { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+.feature-box { background: var(--card-bg); border-radius: var(--r-xl); border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1/1; padding: 2rem; transition: var(--t-spring); }
+[data-theme="dark"] .feature-box { background: #1a1a1a; border-color: rgba(255,255,255,0.08); }
+.feature-box:hover { transform: translateY(-20px) scale(1.02); box-shadow: var(--shadow-xl), var(--shadow-gold); border-color: rgba(var(--primary-rgb), 0.28); }
+.feature-box .icon-circle { width: 4.5rem; height: 4.5rem; background: var(--dark); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; transition: var(--t-spring); }
+.feature-box:hover .icon-circle { transform: scale(1.18) rotate(6deg); background: var(--primary); box-shadow: var(--shadow-gold); }
+.feature-box h3 { font-size: 1.35rem; font-weight: 800; margin: 0.75rem 0; color: var(--text-primary); }
 .feature-box:hover h3 { color: var(--primary); }
+.feature-box p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; }
 
-.feature-box p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; max-width: 90%; }
+.trust-badges { margin: 3rem 0 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+.trust-badges span { font-weight: 600; color: var(--text-secondary); font-size: 0.875rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--r-pill); padding: 0.35rem 0.9rem; transition: var(--t-fast); }
+.trust-badges span:hover { background: rgba(var(--primary-rgb), 0.08); border-color: rgba(var(--primary-rgb), 0.3); color: var(--primary); }
 
-.trust-badges { margin: 3rem 0 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; font-weight: 700; color: #666; font-size: 1rem; }
+/* ── 7. ГАЗРЫН ЗУРАГ (Find Us) ── */
+.find-us { background: var(--bg-primary); text-align: center; padding: 4rem 0 2rem; transition: var(--t-base); }
+.find-us h2 { font-size: 2.8rem; font-weight: 800; }
+.map-container { max-width: 1000px; width: 100%; height: 600px; margin: 2rem auto 0; border-radius: 2.5rem; overflow: hidden; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+.open-maps { position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; }
 
-[data-theme="dark"] .trust-badges { color: var(--text-secondary); }
+/* ── 8. САГСНЫ ЦЭС (Cart Drawer) ── */
+.cart-drawer { position: fixed; top: 0; right: -450px; width: 400px; height: 100%; background: var(--bg-primary); box-shadow: var(--shadow-xl); border-left: 1px solid var(--border-color); z-index: 2000; transition: right var(--t-spring); display: flex; flex-direction: column; }
+.cart-drawer.open { right: 0; }
+.cart-header { padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+.cart-header h3 { font-size: 1.4rem; font-weight: 800; }
+.close-btn { background: var(--bg-secondary); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.4rem; color: var(--text-primary); }
 
-.check-availability-btn {
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-}
-
-.check-availability-btn:hover {
-    background: var(--primary);
-    color: #ffffff;
-}
-
-/* Find Us */
-.find-us {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    text-align: center;
-    padding: 6rem 0;
-    transition: background-color var(--t-base), color var(--t-base);
-}
-
-.find-us h2 {
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-    font-weight: 800;
-    color: var(--text-primary);
-}
-.map-container { width: 100%; height: 600px; border-radius: 2.5rem; overflow: hidden; position: relative; margin-top: 3rem; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
-.open-maps { position: absolute; top: 2rem; left: 2rem; z-index: 10; }
-
-/* 
-   =========================================
-   5. CART DRAWER (WHITE & ANIMATED RESTORED)
-   ========================================= 
-*/
-.cart-drawer {
-    position: fixed; top: 0; right: -450px; width: 400px; height: 100%;
-    background: var(--bg-primary);
-    box-shadow: var(--shadow-xl);
-    border-left: 1px solid var(--border-color);
-    z-index: 2000;
-    transition: right var(--t-spring);
-    display: flex; flex-direction: column; color: var(--text-primary);
-}
-
-.cart-drawer.open { right: 0; transform: translateX(0); }
-.cart-header { padding: 1.5rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; }
-.cart-header-left { display: flex; align-items: center; gap: 0.6rem; }
-.cart-header h3 { font-size: 1.4rem; font-weight: 800; color: var(--dark); }
-.cart-header-count {
-  background: var(--primary); color: #fff;
-  font-size: 0.72rem; font-weight: 700;
-  min-width: 1.4rem; height: 1.4rem; border-radius: 999px;
-  display: flex; align-items: center; justify-content: center; padding: 0 0.3rem;
-}
-
-[data-theme="dark"] .cart-header {
-    border-bottom-color: var(--border-color);
-    background: var(--bg-secondary);
-}
-
-[data-theme="dark"] .cart-header h3 {
-    color: var(--text-primary);
-}
-.close-btn { 
-    background: #f5f5f5; border: none; color: var(--dark); width: 35px; height: 35px;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 1.4rem; transition: 0.2s;
-}
-.close-btn:hover { background: #eeeeee; }
-
-[data-theme="dark"] .close-btn {
-    background: var(--border-color);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .close-btn:hover {
-    background: #505050;
-}
 .cart-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
-/* Cart items */
-.cart-item { display: flex; gap: 0.9rem; padding: 1rem 0; border-bottom: 1px solid #f0f0f0; position: relative; align-items: flex-start; }
-[data-theme="dark"] .cart-item { border-bottom-color: var(--border-color); }
+.cart-actions { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+.cart-count-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+.clear-cart-btn { background: none; border: none; color: var(--muted); font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
 
-.cart-item-img-wrap {
-  position: relative; flex-shrink: 0;
-}
-.cart-item-img-wrap img { width: 68px; height: 68px; object-fit: cover; border-radius: 10px; display: block; }
-.cart-type-dot {
-  position: absolute; bottom: -4px; right: -4px;
-  width: 1.5rem; height: 1.5rem; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; border: 2px solid #fff;
-}
-[data-theme="dark"] .cart-type-dot { border-color: var(--bg-secondary); }
+/* Сагсан дахь бараа */
+.cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-color); align-items: flex-start; }
+.cart-item-img-wrap { position: relative; flex-shrink: 0; }
+.cart-item-img-wrap img { width: 68px; height: 68px; object-fit: cover; border-radius: 12px; }
+.cart-type-dot { position: absolute; bottom: -4px; right: -4px; width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: 2px solid var(--bg-primary); }
 
 .cart-item-info { flex: 1; min-width: 0; }
-.cart-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.4rem; margin-bottom: 0.2rem; }
-.cart-item-info h4 { font-size: 0.88rem; font-weight: 700; color: var(--dark); line-height: 1.3; flex: 1; }
-[data-theme="dark"] .cart-item-info h4 { color: var(--text-primary); }
-
-.cart-type-badge {
-  font-size: 0.65rem; font-weight: 700;
-  border: 1px solid; border-radius: 999px;
-  padding: 0.15rem 0.5rem; white-space: nowrap; flex-shrink: 0;
-}
-
+.cart-item-top { display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.3rem; }
+.cart-item-info h4 { font-size: 0.9rem; font-weight: 700; line-height: 1.3; }
+.cart-type-badge { font-size: 0.65rem; font-weight: 700; border: 1px solid; border-radius: 999px; padding: 0.1rem 0.5rem; white-space: nowrap; }
 .item-price { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
-.cart-item-meta { font-size: 0.72rem; color: #999; margin-top: 0.2rem; }
-[data-theme="dark"] .cart-item-meta { color: #666; }
-
-.remove-item-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #ccc; transition: 0.2s; padding: 0.1rem 0.2rem; flex-shrink: 0; }
+.cart-item-meta { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem; }
+.remove-item-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted); transition: 0.2s; }
 .remove-item-btn:hover { color: #ff4d4d; }
-[data-theme="dark"] .remove-item-btn { color: var(--text-secondary); }
 
-.cart-actions { margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
-.cart-count-label { font-size: 0.8rem; color: #999; font-weight: 600; }
-[data-theme="dark"] .cart-count-label { color: var(--text-secondary); }
-.clear-cart-btn { background: none; border: none; color: #bbb; font-size: 0.78rem; cursor: pointer; text-decoration: underline; }
-.clear-cart-btn:hover { color: #ff4d4d; }
-[data-theme="dark"] .clear-cart-btn { color: var(--text-secondary); }
+.cart-footer { padding: 2rem 1.5rem; border-top: 1px solid var(--border-color); background: var(--bg-tertiary); }
+.cart-footer .total-price { font-size: 1.8rem; font-weight: 800; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.cart-footer .total-price span:first-child { font-size: 1rem; color: var(--text-secondary); font-weight: 600; }
+.checkout-btn { width: 100%; padding: 1.2rem; border-radius: 40px; font-size: 1.1rem; }
 
-/* Empty cart state */
-.empty-cart { text-align: center; padding: 4rem 1.5rem; color: #888; display: flex; flex-direction: column; align-items: center; }
-[data-theme="dark"] .empty-cart { color: var(--text-secondary); }
-.empty-cart-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.6; }
-.empty-cart-title { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.4rem; }
-[data-theme="dark"] .empty-cart-title { color: var(--text-primary); }
-.empty-cart-sub { font-size: 0.85rem; color: #aaa; margin-bottom: 1.5rem; }
-.empty-cart-btn { font-size: 0.85rem; padding: 0.65rem 1.4rem; }
-
-.empty-icon { font-size: 3rem; margin-bottom: 1rem; }
-.cart-footer { padding: 2rem 1.5rem; border-top: 1px solid #f0f0f0; background: #fafafa; }
-.cart-footer .total-price { font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; color: var(--dark); }
-.cart-footer .total-price span:first-child { font-size: 1rem; color: #888; }
-
-[data-theme="dark"] .cart-footer {
-    border-top-color: var(--border-color);
-    background: var(--bg-primary);
-}
-
-[data-theme="dark"] .cart-footer .total-price {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .cart-footer .total-price span:first-child {
-    color: var(--text-secondary);
-}
-.checkout-btn { width: 100%; background: var(--primary); color: white; padding: 1.2rem; border-radius: 40px; border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; }
-.cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1999; opacity: 0; visibility: hidden; transition: 0.4s; backdrop-filter: blur(2px); }
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1999; opacity: 0; visibility: hidden; transition: 0.4s; backdrop-filter: blur(2px); }
 .cart-overlay.open { opacity: 1; visibility: visible; }
 
-/*
-   =========================================
-   6. FOOTER — Full redesign
-   Token-based: --primary-rgb, --shadow-gold, --t-fast, --r-*
-   =========================================
-*/
-.footer {
-    background: #060606;
-    color: #ffffff;
-    margin-top: auto;
-    width: 100%;
-}
-
-/* Gold gradient top divider — token ашиглана */
-.footer-divider {
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(var(--primary-rgb), 0.45) 25%,
-        var(--primary) 50%,
-        rgba(var(--primary-rgb), 0.45) 75%,
-        transparent 100%
-    );
-}
-
-.footer-inner {
-    display: grid;
-    grid-template-columns: 1.7fr 1fr 1fr 1.1fr;
-    gap: 3.5rem;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 4.5rem 2rem 4rem;
-}
-
-/* ── Brand column ── */
-.footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-weight: 800;
-    font-size: 1.05rem;
-    margin-bottom: 1rem;
-    color: #fff;
-}
-
-.footer-logo-img {
-    width: 2.1rem;
-    height: 2.1rem;
-    object-fit: contain;
-    border-radius: var(--r-sm);
-}
-
-.footer-tagline {
-    color: rgba(255,255,255,0.42);
-    font-size: 0.875rem;
-    line-height: 1.65;
-    margin-bottom: 1.6rem;
-    max-width: 260px;
-}
-
-.footer-socials {
-    display: flex;
-    gap: 0.55rem;
-}
-
-.social-btn {
-    width: 2.3rem;
-    height: 2.3rem;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--r-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.55);
-    text-decoration: none;
-    transition: all var(--t-fast);
-    flex-shrink: 0;
-}
-
-.social-btn:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-gold);
-}
-
-/* ── Shared column styles ── */
-.footer-col h4 {
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    color: var(--primary);
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 1.4rem;
-}
-
-/* ── Nav list ── */
-.footer-nav-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-}
-
-.footer-nav-list a {
-    color: rgba(255,255,255,0.48);
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: color var(--t-fast), padding-left var(--t-fast);
-    display: inline-block;
-}
-
-.footer-nav-list a:hover {
-    color: #fff;
-    padding-left: 4px;
-}
-
-/* ── Contact list ── */
-.footer-contact-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-}
-
-.footer-contact-list li {
-    display: flex;
-    gap: 0.65rem;
-    align-items: flex-start;
-}
-
-.contact-icon {
-    font-size: 0.85rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-    opacity: 0.7;
-}
-
-.footer-contact-list a {
-    color: rgba(255,255,255,0.48);
-    text-decoration: none;
-    font-size: 0.875rem;
-    line-height: 1.55;
-    transition: color var(--t-fast);
-}
-
+/* ── 9. FOOTER ── */
+.footer { background: #060606; color: #fff; margin-top: auto; }
+.footer-divider { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(var(--primary-rgb), 0.45) 25%, var(--primary) 50%, rgba(var(--primary-rgb), 0.45) 75%, transparent 100%); }
+.footer-inner { display: flex; justify-content: center; gap: 8rem; padding: 4.5rem 2rem 4rem; }
+.footer-logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.05rem; margin-bottom: 1rem; color: #fff; }
+.footer-logo-img { width: 2.1rem; height: 2.1rem; object-fit: contain; border-radius: var(--r-sm); }
+.footer-tagline { color: rgba(255,255,255,0.42); font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.6rem; max-width: 260px; }
+.footer-socials { display: flex; gap: 0.55rem; }
+.social-btn { width: 2.3rem; height: 2.3rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); text-decoration: none; transition: var(--t-fast); }
+.social-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; transform: translateY(-3px); box-shadow: var(--shadow-gold); }
+.footer-col h4 { font-size: 0.7rem; letter-spacing: 3px; color: var(--primary); font-weight: 700; text-transform: uppercase; margin-bottom: 1.4rem; }
+.footer-contact-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; }
+.footer-contact-list li { display: flex; gap: 0.65rem; align-items: flex-start; }
+.contact-icon { font-size: 0.85rem; flex-shrink: 0; margin-top: 2px; opacity: 0.7; }
+.footer-contact-list a { color: rgba(255,255,255,0.48); text-decoration: none; font-size: 0.875rem; line-height: 1.55; transition: var(--t-fast); }
 .footer-contact-list a:hover { color: var(--primary); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.4rem; color: rgba(255,255,255,0.25); display: flex; justify-content: center; font-size: 0.78rem; }
 
-/* ── CTA column ── */
-.footer-cta-text {
-    color: rgba(255,255,255,0.42);
-    font-size: 0.875rem;
-    line-height: 1.65;
-    margin-bottom: 1.3rem;
-}
-
-.footer-cta-btn {
-    display: inline-block;
-    background: var(--primary);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.85rem;
-    padding: 0.7rem 1.5rem;
-    border-radius: var(--r-pill);
-    text-decoration: none;
-    transition: background var(--t-base), transform var(--t-base), box-shadow var(--t-base);
-}
-
-.footer-cta-btn:hover {
-    background: var(--primary-h);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-gold);
-}
-
-/* ── Bottom bar ── */
-.footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 1.4rem 2rem;
-    color: rgba(255,255,255,0.25);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1280px;
-    margin: 0 auto;
-    font-size: 0.78rem;
-}
-
-.footer-bottom-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.footer-bottom-links span {
-    cursor: pointer;
-    transition: color var(--t-fast);
-}
-.footer-bottom-links span:hover { color: rgba(255,255,255,0.65); }
-
-/*
-   =========================================
-   7. HAMBURGER MENU
-   =========================================
-*/
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--dark);
-    padding: 0.25rem 0.4rem;
-    line-height: 1;
-    transition: 0.2s;
-}
-
-.hamburger:hover { opacity: 0.7; }
-
-[data-theme="dark"] .hamburger {
-    color: var(--text-primary);
-}
-
-/*
-   =========================================
-   8. RESPONSIVE
-   =========================================
-*/
-/* Stats row */
-.stats-row {
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    margin: 3rem 0 1rem;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.stat-item strong {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--primary);
-    line-height: 1;
-}
-
-.stat-item span {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-}
-
-/* Trust badges */
-.trust-badges {
-    margin: 2rem 0 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.trust-badges span:not(.dot) {
-    font-weight: 600;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--r-pill);
-    padding: 0.35rem 0.9rem;
-    transition: all var(--t-fast);
-}
-
-.trust-badges span:not(.dot):hover {
-    background: rgba(var(--primary-rgb), 0.08);
-    border-color: rgba(var(--primary-rgb), 0.3);
-    color: var(--primary);
-}
-
-.trust-badges .dot { display: none; }
+/* ── 10. RESPONSIVE (Хариу үйлдэл үзүүлэх загвар) ── */
+.hamburger { display: none; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: var(--dark); }
+[data-theme="dark"] .hamburger { color: var(--text-primary); }
 
 @media (max-width: 1200px) {
-    .features-wide { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-    .discovery-title { font-size: 2.8rem; }
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .features-wide { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { gap: 4rem; }
 }
-
 @media (max-width: 900px) {
-    .hamburger { display: flex; align-items: center; }
-    .combined-container { flex-direction: column; max-width: 100%; padding: 0 1rem; margin: 0 auto; }
-    .booking-side { position: static !important; width: 100%; }
-    .discovery-side { width: 100%; }
-
-    /* Mobile nav — slide in from left */
-    .main-nav {
-        position: fixed;
-        top: 0; left: 0;
-        width: min(300px, 82vw);
-        height: 100vh;
-        background: #ffffff;
-        z-index: 1050;
-        transform: translateX(-110%);
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        padding: 5.5rem 1.5rem 2rem;
-        box-shadow: 6px 0 28px rgba(0,0,0,0.14);
-        overflow-y: auto;
-    }
-    [data-theme="dark"] .main-nav { background: #111111; }
-
+    .hamburger { display: flex; }
+    .combined-container { flex-direction: column; padding: 0 1rem; margin: 0 auto; }
+    .main-nav { position: fixed; top: 0; left: 0; width: min(300px, 82vw); height: 100vh; background: #fff; z-index: 1050; transform: translateX(-110%); transition: transform 0.35s; padding: 5.5rem 1.5rem 2rem; box-shadow: 6px 0 28px rgba(0,0,0,0.14); }
+    [data-theme="dark"] .main-nav { background: #111; }
     .main-nav.mobile-open { transform: translateX(0); }
-
-    .main-nav ul { flex-direction: column !important; gap: 0.2rem !important; }
-
-    .main-nav ul li a {
-        display: block !important;
-        padding: 0.9rem 1.1rem !important;
-        border-radius: 0.75rem !important;
-        font-size: 0.95rem !important;
-        color: #1a1a1a !important;
-        border-left: 3px solid transparent;
-        transition: all 0.18s ease !important;
-    }
-    [data-theme="dark"] .main-nav ul li a { color: #e0e0e0 !important; }
-
-    .main-nav ul li a.active {
-        background: rgba(212, 175, 55, 0.12) !important;
-        color: var(--primary) !important;
-        border-left-color: var(--primary) !important;
-    }
-    .main-nav ul li a:hover:not(.active) { background: #f5f5f5 !important; }
-    [data-theme="dark"] .main-nav ul li a:hover:not(.active) { background: rgba(255,255,255,0.07) !important; }
-
-    .nav-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 1049;
-        backdrop-filter: blur(2px);
-    }
-
-    /* Features: 2 columns, no aspect ratio */
-    .features-wide { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-    .feature-box { aspect-ratio: auto; padding: 1.5rem; min-height: auto; }
-    .feature-box .icon-circle { width: 3.5rem; height: 3.5rem; font-size: 1.8rem; margin-bottom: 0.75rem; }
-    .feature-box h3 { font-size: 1rem; }
-    .feature-box p { font-size: 0.82rem; }
-
-    /* Why choose section compact */
-    .why-choose { padding: 3rem 1.25rem; }
+    .main-nav ul { flex-direction: column; }
     .why-choose h2 { font-size: 1.9rem; }
-
-    /* Discovery/Booking wrapper compact */
-    .discovery-booking-wrapper { padding: 2.5rem 0; }
-
-    /* Stats row: 2x2 grid */
-    .stats-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin: 2rem 0 0.5rem;
-    }
-    .stat-item { text-align: center; }
-
-    /* Trust badges wrap */
-    .trust-badges { flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
-
-    /* Hero */
-    .hero { min-height: 58vh; height: 58vh; padding: 2rem 1rem; }
     .hero h1 { font-size: 2.2rem; }
-    .hero p  { font-size: 1rem; }
-
-    /* Find us map */
-    .map-container { height: 300px; border-radius: 1.5rem; }
-
-    /* Discovery */
-    .discovery-title { font-size: 2rem; }
-    .accordion-gallery-simplified { height: 260px; }
-
-    /* Section padding tighter */
-    .section-padding { padding: 3rem 0; }
+    .map-container { height: 300px; }
 }
-
 @media (max-width: 600px) {
-    /* Hero */
-    .hero { min-height: 50vh; height: 50vh; padding: 1rem 1rem; }
-    .hero h1 { font-size: 1.65rem; letter-spacing: -0.5px; }
-    .hero .tagline { font-size: 0.9rem; }
-    .hero-cta-group { flex-direction: column; align-items: stretch; gap: 0.75rem; }
-    .hero-cta-group a, .hero-cta-group button { text-align: center; justify-content: center; }
-    .check-availability-btn { width: 100%; text-align: center; }
-
-    /* Booking card compact */
-    .vertical-booking { padding: 1.5rem 1.25rem; border-radius: 1.25rem; }
-    .booking-form-vertical { gap: 0.75rem; }
-    .booking-field input, .booking-field select { padding: 0.75rem 1rem; font-size: 1rem; }
-    .booking-search-btn-gold { padding: 0.9rem !important; font-size: 1rem; }
-
-    /* Stats */
-    .stats-row { gap: 0.75rem; }
-    .stat-item strong { font-size: 1.6rem; }
-    .stat-item span { font-size: 0.75rem; }
-
-    /* Features: 1 column on very small screens */
-    .features-wide { grid-template-columns: 1fr; }
-    .feature-box { padding: 1.1rem 1rem; }
-    .feature-box .icon-circle { width: 3rem; height: 3rem; font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .feature-box h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
-    .feature-box p { font-size: 0.78rem; }
-
-    /* Discovery/Booking wrapper more compact */
-    .discovery-booking-wrapper { padding: 1.75rem 0; }
-    .vertical-booking .booking-headline { font-size: 1.4rem; margin-bottom: 1.25rem; }
-
-    /* Why choose headings */
-    .why-choose h2 { font-size: 1.5rem; }
-    .why-choose .subtitle { font-size: 0.85rem; }
-
-    /* Header compact */
+    .hero h1 { font-size: 1.65rem; }
+    .vertical-booking { padding: 1.5rem 1.25rem; }
     .header { padding: 0 0.75rem; height: 3.5rem; }
-    .header .logo span { font-size: 0.95rem; }
-    .header .logo .logo-img { width: 2rem; height: 2rem; }
-    .lang-switch { display: none; }
-    .theme-toggle { padding: 0.3rem 0.5rem; font-size: 1rem; }
-    .cart-icon { font-size: 1.15rem; }
-
-    /* Section titles */
-    .discovery-title { font-size: 1.65rem; }
-    .section-padding { padding: 2.5rem 0; }
-    .find-us h2 { font-size: 2rem; }
-    .map-container { height: 250px; border-radius: 1rem; }
-
-    /* Footer hidden on mobile (bottom nav replaces) */
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.25rem; }
-    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; font-size: 0.78rem; }
+    .footer-inner { flex-direction: column; gap: 2rem; }
+    .cart-drawer { width: 100%; right: -100%; }
 }

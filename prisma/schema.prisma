@@ -49,12 +49,17 @@ model Room {
   price            Float
 
   image            String
+  image2           String?
+  image3           String?
+  mainImageIndex   Int       @default(1)
 
   wifi             Boolean   @default(false)
   heating          Boolean   @default(false)
   airConditioning  Boolean   @default(false)
   breakfast        Boolean   @default(false)
   kitchen          Boolean   @default(false)
+
+  totalUnits       Int       @default(1)
 
   maxAdults        Int       @default(1)
   maxChildren      Int       @default(0)
@@ -168,6 +173,9 @@ model OrderItem {
   quantity         Int        @default(1)
 
   price            Float
+
+  checkin          String?
+  checkout         String?
 
   order            Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
