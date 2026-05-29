@@ -75,8 +75,18 @@
 .room-image-side { position: relative; flex: 0 0 320px; height: 100%; overflow: hidden; }
 .room-image-side img { width: 100%; height: 100%; object-fit: cover; }
 .room-details-btn {
-    position: absolute; bottom: 15px; left: 15px; background: var(--primary); color: white;
+    position: absolute; bottom: 15px; left: 15px;
+    background: rgba(255,255,255,0.92);
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
     padding: 8px 16px; border-radius: var(--r-pill); font-size: 0.85rem; font-weight: 700; text-decoration: none; z-index: 2;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    backdrop-filter: blur(4px);
+}
+.room-details-btn:hover {
+    background: var(--primary);
+    color: #000;
+    transform: translateY(-1px);
 }
 
 /* Мэдээллийн хэсэг (Дунд тал) */

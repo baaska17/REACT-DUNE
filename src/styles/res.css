@@ -63,25 +63,35 @@
 }
 
 .filter-btn {
-    background: #f0ebe4;
-    border: none;
+    background: #ffffff;
+    border: 1.5px solid #d9d0c5;
     padding: 0.75rem 1.4rem;
     border-radius: var(--r-pill);
     cursor: pointer;
     font-weight: 600;
     font-size: 0.95rem;
     color: var(--dark);
-    transition: 0.3s;
+    transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
 }
 
 [data-theme="dark"] .filter-btn {
-    background: #2d2d2d;
-    color: #ffffff;
+    background: #1a1a1a;
+    border-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(197,160,89,0.06);
+    transform: translateY(-1px);
 }
 
 .filter-btn.active {
-    background: var(--primary);
-    color: var(--white);
+    background: rgba(197,160,89,0.1);
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 700;
 }
 
 /* Menu Grid */
@@ -229,19 +239,28 @@
 [data-theme="dark"] .qty-num { color: #fff; border-color: #333; }
 
 .add-to-cart {
-    background: var(--primary, #C5A059);
-    color: #000;
+    background: #ffffff;
+    color: var(--primary);
     padding: 0.45rem 0.85rem;
     border-radius: 8px;
     font-weight: 700;
     font-size: 0.8rem;
-    border: none;
+    border: 1.5px solid var(--primary);
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
     white-space: nowrap;
 }
 
-.add-to-cart:hover { opacity: 0.85; }
+[data-theme="dark"] .add-to-cart {
+    background: #1a1a1a;
+    color: var(--primary);
+}
+
+.add-to-cart:hover {
+    background: var(--primary);
+    color: #000;
+    transform: translateY(-1px);
+}
 
 .add-to-cart--disabled {
     background: #e5e7eb;
