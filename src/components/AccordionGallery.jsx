@@ -1,15 +1,16 @@
-'use client';
-import { useState } from 'react';
-import Link from 'next/link';
+'use client'; // Next.js-ийн Client Component гэдгийг тодорхойлно. Хэрэглэгчийн талд ажиллах React hook-үүд ашиглах боломжийг олгоно.
+import { useState } from 'react'; // Төлөв (state) удирдах React hook.
+import Link from 'next/link'; // Хуудас хооронд шилжих компонент.
 
+// Галерейд харагдах мэдээллүүдийн жагсаалт (Array).
 const PANELS = [
   {
     id: 1,
-    label: 'Horse Ride',
-    title: 'Horse Riding',
-    description: 'Explore the vast Mongolian steppe on horseback',
-    image: '/Horse Ride.jpg',
-    link: '/horse',
+    label: 'Horse Ride', // Карт хумигдсан үед харагдах босоо текст.
+    title: 'Horse Riding', // Карт дэлгэгдсэн үед харагдах үндсэн гарчиг.
+    description: 'Explore the vast Mongolian steppe on horseback', // Богино тайлбар.
+    image: '/Horse Ride.jpg', // Арын дэвсгэр зургийн зам.
+    link: '/horse', // Дарсан үед шилжих холбоос.
   },
   {
     id: 2,
@@ -30,40 +31,51 @@ const PANELS = [
 ];
 
 const AccordionGallery = () => {
+  // activeIndex: Одоо хулгана дээр нь байгаа картын дугаарыг (index) хадгалах төлөв.
+  // Анхны утга нь null буюу ямар ч карт идэвхжээгүй байна.
   const [activeIndex, setActiveIndex] = useState(null);
 
   return (
     <div className="discovery-content">
+      {/* Хэсгийн толгой мэдээлэл: Жижиг гарчиг болон үндсэн гарчиг */}
       <div className="discovery-header">
         <p className="discovery-eyebrow">Our Top Experiences</p>
         <h2 className="discovery-title">Discover the Best<br />of Dune Camp</h2>
       </div>
 
+      {/* Аккордион галерейн үндсэн контейнер */}
       <div className="accordion-gallery-simplified">
+        {/* PANELS өгөгдлийг map ашиглан нэг бүрчлэн гүйлгэж харуулна */}
         {PANELS.map((item, index) => (
           <Link
-            key={item.id}
-            href={item.link}
+            key={item.id} // Жагсаалтын элемент бүрт байх ёстой давтагдашгүй ID.
+            href={item.link} // Холбоос.
+            // Хэрэв энэ картын индекс activeIndex-тэй таарч байвал 'active' класс нэмэгдэнэ.
             className={`accordion-panel-simple${activeIndex === index ? ' active' : ''}`}
+            // Хулгана карт дээр очих үед тухайн индексийг идэвхтэй болгож хадгална.
             onMouseEnter={() => setActiveIndex(index)}
+            // Хулгана картнаас холдох үед идэвхтэй индексийг null болгож цэвэрлэнэ.
             onMouseLeave={() => setActiveIndex(null)}
           >
+            {/* Картын арын дэвсгэр зураг */}
             <div
               className="accordion-bg"
               style={{ backgroundImage: `url("${item.image}")` }}
             />
+            {/* Зургийг бараантуулж текст тод харагдуулах давхарга */}
             <div className="accordion-overlay" />
 
-            {/* Vertical Label (Visible when NOT active) */}
+            {/* Босоо шошго текст (Карт идэвхгүй үед харагдана) */}
             <div className="accordion-label-simple">
               <span className="accordion-label-text">{item.label}</span>
             </div>
 
-            {/* Content (Visible when active) */}
+            {/* Картын дэлгэрэнгүй агуулга (Карт идэвхтэй/дэлгэгдсэн үед харагдана) */}
             <div className="accordion-content-simple">
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <div className="accordion-footer">
+                {/* Дэлгэрэнгүй товчлуур (харагдах байдал) */}
                 <span className="accordion-discover-btn">Discover →</span>
               </div>
             </div>
