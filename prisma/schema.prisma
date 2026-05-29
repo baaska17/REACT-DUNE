@@ -13,13 +13,6 @@ ENUMS
 ========================================
 */
 
-enum FoodCategory {
-  MAIN_DISH
-  DRINK
-  DESSERT
-  DAIRY
-  SHOP
-}
 
 enum OrderStatus {
   PENDING
@@ -88,7 +81,7 @@ model Food {
 
   image            String
 
-  category         FoodCategory
+  category         String
 
   size             String?
 

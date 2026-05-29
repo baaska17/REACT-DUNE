@@ -19,6 +19,8 @@ import {
   RefreshCw,
   Sun,
   Moon,
+  MessageSquare,
+  Star,
 } from 'lucide-react';
 
 /*
@@ -101,6 +103,7 @@ export default function AdminPage() {
   const [foods, setFoods]           = useState([]);
   const [adventures, setAdventures] = useState([]);
   const [orders, setOrders]         = useState([]);
+  const [comments, setComments]     = useState([]);
   const [stats, setStats]           = useState({ totalSales: 0, pendingOrders: 0, totalItems: 0 });
 
   const [imageFile, setImageFile]       = useState(null);
@@ -123,7 +126,7 @@ export default function AdminPage() {
   });
   const [foodForm, setFoodForm] = useState({
     title: '', description: '', price: '', image: '',
-    category: 'MAIN_DISH', size: '', stock: 0, featured: false,
+    category: ['MAIN_DISH'], size: '', stock: 0, featured: false,
   });
   const [adventureForm, setAdventureForm] = useState({
     title: '', description: '', price: '', image: '',
@@ -173,23 +176,23 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     try {
-      const [roomRes, foodRes, adventureRes, orderRes] = await Promise.all([
+      const [roomRes, foodRes, adventureRes, orderRes, commentRes] = await Promise.all([
         fetch('/api/rooms'), fetch('/api/foods'),
         fetch('/api/adventures'), fetch('/api/orders'),
+        fetch('/api/comments'),
       ]);
-      const [roomData, foodData, adventureData, orderData] = await Promise.all([
-        roomRes.json(), foodRes.json(), adventureRes.json(), orderRes.json(),
+      const [roomData, foodData, adventureData, orderData, commentData] = await Promise.all([
+        roomRes.json(), foodRes.json(), adventureRes.json(), orderRes.json(), commentRes.json(),
       ]);
 
       setRooms(Array.isArray(roomData) ? roomData : []);
       setFoods(Array.isArray(foodData) ? foodData : []);
       setAdventures(Array.isArray(adventureData) ? adventureData : []);
       setOrders(Array.isArray(orderData) ? orderData : []);
+      setComments(Array.isArray(commentData) ? commentData : []);
 
-      // reduce() — нийт борлуулалт
       const totalSales = Array.isArray(orderData)
         ? orderData.reduce((sum, o) => sum + o.totalAmount, 0) : 0;
-      // filter() — хүлээгдэж буй захиалга
       const pendingOrders = Array.isArray(orderData)
         ? orderData.filter((o) => o.status === 'PENDING').length : 0;
 
@@ -228,13 +231,14 @@ export default function AdminPage() {
     finally { setIsUploading(false); }
   };
 
-  const FOOD_EMPTY = { title: '', description: '', price: '', image: '', category: 'MAIN_DISH', size: '', stock: 0, featured: false };
+  const FOOD_EMPTY = { title: '', description: '', price: '', image: '', category: ['MAIN_DISH'], size: '', stock: 0, featured: false };
   const ROOM_EMPTY = { title: '', description: '', price: '', image: '', image2: '', image3: '', mainImageIndex: 1, wifi: false, heating: false, airConditioning: false, breakfast: false, kitchen: false, totalUnits: 1, maxAdults: 1, maxChildren: 0, featured: false };
   const ADV_EMPTY  = { title: '', description: '', price: '', image: '', maxPersons: 10, featured: false };
 
   const startEditFood = (item) => {
     setEditingFood(item);
-    setFoodForm({ title: item.title, description: item.description, price: item.price, image: item.image, category: item.category, size: item.size || '', stock: item.stock || 0, featured: item.featured });
+    const cats = item.category ? item.category.split(',') : ['MAIN_DISH'];
+    setFoodForm({ title: item.title, description: item.description, price: item.price, image: item.image, category: cats, size: item.size || '', stock: item.stock || 0, featured: item.featured });
     setImageFile(null); setImagePreview(null);
   };
   const cancelEditFood = () => { setEditingFood(null); setFoodForm(FOOD_EMPTY); setImageFile(null); setImagePreview(null); };
@@ -292,10 +296,11 @@ export default function AdminPage() {
 
   const submitFood = async (e) => {
     e.preventDefault();
-    const image  = imageFile ? await uploadImage() : foodForm.image;
-    const url    = editingFood ? `/api/foods/${editingFood.id}` : '/api/foods';
-    const method = editingFood ? 'PUT' : 'POST';
-    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...foodForm, image }) });
+    const image    = imageFile ? await uploadImage() : foodForm.image;
+    const category = Array.isArray(foodForm.category) ? foodForm.category.join(',') : foodForm.category;
+    const url      = editingFood ? `/api/foods/${editingFood.id}` : '/api/foods';
+    const method   = editingFood ? 'PUT' : 'POST';
+    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...foodForm, image, category }) });
     if (res.ok) { cancelEditFood(); fetchData(); }
   };
 
@@ -314,6 +319,12 @@ export default function AdminPage() {
     const res = await fetch(`${map[type]}${id}`, { method: 'DELETE' });
     if (res.ok) fetchData();
   };
+
+  const deleteComment = useCallback(async (id) => {
+    if (!confirm('Сэтгэгдэл устгах уу?')) return;
+    const res = await fetch(`/api/comments/${id}`, { method: 'DELETE' });
+    if (res.ok) setComments(prev => prev.filter(c => c.id !== id));
+  }, []);
 
   const updateOrderStatus = useCallback(async (id, status) => {
     const res = await fetch(`/api/orders/${id}`, {
@@ -382,6 +393,7 @@ export default function AdminPage() {
     { id: 'rooms',      icon: Bed,             label: 'Өрөөнүүд' },
     { id: 'adventures', icon: Mountain,        label: 'Аялал' },
     { id: 'orders',     icon: ShoppingBag,     label: 'Захиалга', badge: stats.pendingOrders },
+    { id: 'comments',   icon: MessageSquare,   label: 'Сэтгэгдэл', badge: comments.length },
     { id: 'settings',   icon: Settings,        label: 'Тохиргоо' },
   ];
 
@@ -407,6 +419,7 @@ export default function AdminPage() {
             <SidebarItem id="rooms"      icon={Bed}             label="Өрөөнүүд" />
             <SidebarItem id="adventures" icon={Mountain}        label="Аялалууд" />
             <SidebarItem id="orders"     icon={ShoppingBag}     label="Захиалгууд" badge={stats.pendingOrders} />
+            <SidebarItem id="comments"   icon={MessageSquare}   label="Сэтгэгдэл" badge={comments.length} />
             <SidebarItem id="settings"   icon={Settings}        label="Тохиргоо" />
           </nav>
           <div style={{ padding: '16px 20px', borderTop: `1px solid ${t.border}`, fontSize: '0.75rem', color: t.textMuted }}>
@@ -492,14 +505,45 @@ export default function AdminPage() {
                   <Field t={t} label="Тоо ширхэг (нөөц)" type="number" value={foodForm.stock} onChange={(e) => setFoodForm({ ...foodForm, stock: parseInt(e.target.value) || 0 })} />
                 </div>
                 <div>
-                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.8rem', color: t.textMuted }}>Ангилал</label>
-                  <select value={foodForm.category} onChange={(e) => setFoodForm({ ...foodForm, category: e.target.value })} style={inputStyle}>
-                    <option value="MAIN_DISH">Үндсэн хоол</option>
-                    <option value="DRINK">Ундаа</option>
-                    <option value="DESSERT">Амттан</option>
-                    <option value="DAIRY">Цагаан идээ</option>
-                    <option value="SHOP">Дэлгүүр</option>
-                  </select>
+                  <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.8rem', color: t.textMuted }}>Ангилал (олон сонгож болно)</label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {[
+                      { value: 'MAIN_DISH', label: 'Үндсэн хоол' },
+                      { value: 'DRINK',     label: 'Ундаа' },
+                      { value: 'DESSERT',   label: 'Амттан' },
+                      { value: 'DAIRY',     label: 'Цагаан идээ' },
+                      { value: 'SHOP',      label: 'Дэлгүүр' },
+                    ].map(({ value, label }) => {
+                      const cats = Array.isArray(foodForm.category) ? foodForm.category : [foodForm.category];
+                      const checked = cats.includes(value);
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => {
+                            const prev = Array.isArray(foodForm.category) ? foodForm.category : [foodForm.category];
+                            const next = checked
+                              ? prev.filter(c => c !== value)
+                              : [...prev, value];
+                            setFoodForm({ ...foodForm, category: next.length > 0 ? next : [value] });
+                          }}
+                          style={{
+                            padding: '6px 14px',
+                            borderRadius: '8px',
+                            border: checked ? '1.5px solid #C5A059' : `1.5px solid ${t.border2}`,
+                            background: checked ? 'rgba(197,160,89,0.15)' : t.item,
+                            color: checked ? '#C5A059' : t.textMuted,
+                            cursor: 'pointer',
+                            fontSize: '0.82rem',
+                            fontWeight: '700',
+                            transition: '0.15s',
+                          }}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
                 <ImageUpload t={t} imagePreview={imagePreview} handleImageChange={handleImageChange} />
                 <FieldCheck t={t} checked={foodForm.featured} onChange={(e) => setFoodForm({ ...foodForm, featured: e.target.checked })} label="Онцолсон" />
@@ -691,6 +735,70 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* ── СЭТГЭГДЭЛ ── */}
+        {activeTab === 'comments' && (
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px' }}>
+              <h1 style={{ fontSize: '1.8rem', fontWeight: '800' }}>Сэтгэгдэл</h1>
+              <button
+                onClick={fetchData}
+                style={{ background: t.item, border: `1px solid ${t.border2}`, borderRadius: '10px', padding: '7px 13px', color: t.textMuted, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem' }}
+              >
+                <RefreshCw size={13} /> Шинэчлэх
+              </button>
+            </div>
+
+            {comments.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '60px', color: t.textMuted }}>Сэтгэгдэл байхгүй байна</div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {comments.map((c) => {
+                  const targetLabel = c.foodId
+                    ? `🍽 Хоол #${c.foodId}`
+                    : c.roomId
+                    ? `🏠 Өрөө #${c.roomId}`
+                    : c.adventureId
+                    ? `🏔 Аялал #${c.adventureId}`
+                    : '—';
+                  const stars = '★'.repeat(Math.min(5, Math.max(0, c.rating))) + '☆'.repeat(5 - Math.min(5, Math.max(0, c.rating)));
+                  return (
+                    <div
+                      key={c.id}
+                      style={{
+                        background: t.card, border: `1px solid ${t.border}`,
+                        borderRadius: '14px', padding: '16px 20px',
+                        display: 'grid', gridTemplateColumns: '1fr auto',
+                        gap: '12px', alignItems: 'start',
+                      }}
+                    >
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: '800', fontSize: '0.88rem', color: '#C5A059' }}>{c.userName}</span>
+                          <span style={{ color: '#fbbf24', fontSize: '0.8rem', letterSpacing: '1px' }}>{stars}</span>
+                          <span style={{ padding: '2px 9px', background: t.item, border: `1px solid ${t.border2}`, borderRadius: '6px', fontSize: '0.72rem', color: t.textMuted, fontWeight: '700' }}>
+                            {targetLabel}
+                          </span>
+                          <span style={{ fontSize: '0.72rem', color: t.textMuted }}>
+                            {new Date(c.createdAt).toLocaleDateString('mn-MN')}
+                          </span>
+                        </div>
+                        <p style={{ color: t.text, fontSize: '0.88rem', margin: 0, lineHeight: '1.5' }}>{c.content}</p>
+                      </div>
+                      <button
+                        onClick={() => deleteComment(c.id)}
+                        title="Устгах"
+                        style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', padding: '7px', borderRadius: '9px', cursor: 'pointer', color: '#f87171', flexShrink: 0 }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ── ТОХИРГОО ── */}
         {activeTab === 'settings' && (
           <div style={{ maxWidth: '620px' }}>
@@ -818,7 +926,12 @@ function InventoryTable({ t, title, items, type, deleteItem, onEdit, editingId }
                 <div style={{ fontWeight: '700', marginBottom: '2px', color: t.text }}>{item.title}</div>
                 <div style={{ color: t.textMuted, fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '240px' }}>{item.description}</div>
                 {type === 'food' && (
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '4px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
+                    {item.category && item.category.split(',').map(cat => (
+                      <span key={cat} style={{ background: 'rgba(129,140,248,0.12)', color: '#818cf8', borderRadius: '6px', padding: '1px 7px', fontSize: '0.68rem', fontWeight: '700' }}>
+                        {cat}
+                      </span>
+                    ))}
                     {item.size && (
                       <span style={{ background: 'rgba(197,160,89,0.12)', color: '#C5A059', borderRadius: '6px', padding: '1px 8px', fontSize: '0.72rem', fontWeight: '700' }}>
                         📏 {item.size}

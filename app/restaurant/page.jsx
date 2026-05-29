@@ -8,13 +8,11 @@ export default function RestaurantPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
 
-  // useContext — LanguageContext-оос орчуулга авна
-  // Lecture: "useContext: consume context in any child"
   const { t, lang } = useLanguage();
 
-  // useMemo — категорийн жагсаалтыг хэл өөрчлөгдөхөд л дахин үүсгэнэ
   const categories = useMemo(() => [
     { key: 'all',       label: t.restaurant.catAll },
     { key: 'MAIN_DISH', label: t.restaurant.catMain },
@@ -24,7 +22,6 @@ export default function RestaurantPage() {
     { key: 'SHOP',      label: t.restaurant.catShop },
   ], [t]);
 
-  // useEffect — data fetch (side effect)
   useEffect(() => {
     async function fetchMenu() {
       try {
@@ -40,27 +37,36 @@ export default function RestaurantPage() {
     fetchMenu();
   }, []);
 
-  // useMemo — filter утга өөрчлөгдөхөд л дахин тооцно
-  // Lecture: "useMemo: only recalculates when deps change"
   const filteredItems = useMemo(() => {
     if (activeCategory === 'all') return menuItems;
-    return menuItems.filter(item => item.category === activeCategory);
+    return menuItems.filter(item => {
+      const cats = item.category ? item.category.split(',') : [];
+      return cats.includes(activeCategory);
+    });
   }, [menuItems, activeCategory]);
 
-  // useMemo — reduce() ашиглан нийт бараа тоолно
-  // Lecture: "reduce(): accumulate values from an array"
   const totalItems = useMemo(
     () => menuItems.reduce((acc, _item) => acc + 1, 0),
     [menuItems]
   );
 
-  // useCallback — addToCart функцийн reference тогтворжуулна
-  // Lecture: "useCallback: memoize a function reference"
+  const getQty = useCallback((id) => quantities[id] || 1, [quantities]);
+
+  const changeQty = useCallback((id, delta, stock) => {
+    setQuantities(prev => {
+      const cur = prev[id] || 1;
+      const next = Math.min(Math.max(1, cur + delta), stock);
+      return { ...prev, [id]: next };
+    });
+  }, []);
+
   const handleAddToCart = useCallback(
     (item) => {
-      addToCart({ ...item, type: 'FOOD', quantity: 1 });
+      const qty = quantities[item.id] || 1;
+      addToCart({ ...item, type: 'FOOD', quantity: qty });
+      setQuantities(prev => ({ ...prev, [item.id]: 1 }));
     },
-    [addToCart]
+    [addToCart, quantities]
   );
 
   if (loading) return (
@@ -116,7 +122,6 @@ export default function RestaurantPage() {
             </p>
           </div>
 
-          {/* FILTER — map() ашиглан категори товч үүсгэнэ */}
           <div className="menu-filters">
             {categories.map(cat => (
               <button
@@ -129,37 +134,77 @@ export default function RestaurantPage() {
             ))}
           </div>
 
-          {/* MENU LIST — map() ашиглан render хийнэ */}
           <ul className="menu-grid">
-            {filteredItems.map(item => (
-              <li key={item.id} className="menu-card">
-                <article>
-                  <figure className="img-container">
-                    <img
-                      src={
-                        item.image
-                          ? item.image.startsWith('/') ? item.image : `/${item.image}`
-                          : '/placeholder-food.jpg'
-                      }
-                      alt={item.title}
-                      className="menu-img"
-                      onError={(e) => { e.target.src = '/placeholder-food.jpg'; }}
-                    />
-                    <button
-                      className="add-to-cart add-to-cart-btn-overlay"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <span className="plus">+</span> {t.common.addToCart}
-                    </button>
-                  </figure>
-                  <div className="menu-info">
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                    <span className="price">{item.price.toLocaleString()}₮</span>
-                  </div>
-                </article>
-              </li>
-            ))}
+            {filteredItems.map(item => {
+              const qty = getQty(item.id);
+              const outOfStock = item.stock <= 0;
+              return (
+                <li key={item.id} className="menu-card">
+                  <article>
+                    <figure className="img-container">
+                      <img
+                        src={
+                          item.image
+                            ? item.image.startsWith('/') ? item.image : `/${item.image}`
+                            : '/placeholder-food.jpg'
+                        }
+                        alt={item.title}
+                        className="menu-img"
+                        onError={(e) => { e.target.src = '/placeholder-food.jpg'; }}
+                      />
+                    </figure>
+                    <div className="menu-info">
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+
+                      <div className="menu-meta-badges">
+                        {item.size && (
+                          <span className="meta-badge meta-badge--size">
+                            📏 {item.size}
+                          </span>
+                        )}
+                        <span className={`meta-badge ${outOfStock ? 'meta-badge--empty' : 'meta-badge--stock'}`}>
+                          {outOfStock
+                            ? (lang === 'MN' ? 'Дууссан' : 'Out of stock')
+                            : (lang === 'MN' ? `${item.stock} ш үлдсэн` : `${item.stock} left`)}
+                        </span>
+                      </div>
+
+                      <div className="menu-footer">
+                        <span className="price">{item.price.toLocaleString()}₮</span>
+                        {outOfStock ? (
+                          <button className="add-to-cart add-to-cart--disabled" disabled>
+                            {lang === 'MN' ? 'Дууссан' : 'Sold out'}
+                          </button>
+                        ) : (
+                          <div className="qty-row">
+                            <div className="qty-ctrl">
+                              <button
+                                className="qty-btn"
+                                onClick={() => changeQty(item.id, -1, item.stock)}
+                                disabled={qty <= 1}
+                              >−</button>
+                              <span className="qty-num">{qty}</span>
+                              <button
+                                className="qty-btn"
+                                onClick={() => changeQty(item.id, +1, item.stock)}
+                                disabled={qty >= item.stock}
+                              >+</button>
+                            </div>
+                            <button
+                              className="add-to-cart"
+                              onClick={() => handleAddToCart(item)}
+                            >
+                              {t.common.addToCart}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
 
           {filteredItems.length === 0 && (
