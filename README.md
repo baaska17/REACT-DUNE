@@ -1,28 +1,32 @@
-# Dune Tourist Camp - Management System
+# Dune Tourist Camp - Вэб систем
 
-A full-stack web application for Dune Tourist Camp, featuring a customer booking site and a dedicated admin dashboard.
-
-## 🚀 Tech Stack
-- **Framework:** Next.js 15
-- **Database:** SQLite with Prisma ORM
-- **Styling:** CSS Modules / Global CSS
-- **Icons:** Lucide React
+Dune Tourist Camp-ын захиалга болон удирдлагын цогц систем. Энэхүү төсөл нь хэрэглэгчийн захиалгын вэб болон админ удирдлагын хэсгээс бүрдэнэ.
 
 ---
 
-## 🛠️ Installation & Setup
+## 🚀 Технологийн сан (Tech Stack)
 
-### 1. Prerequisites
-Ensure you have **Node.js** (v18 or higher) installed on your machine.
+- **Framework:** Next.js 15 (App Router)
+- **Database:** SQLite with Prisma ORM
+- **Styling:** Tailwind CSS, Global CSS
+- **Icons:** Lucide React
+- **UI Components:** Framer Motion (optional), Custom Components
 
-### 2. Install Dependencies
-Open your terminal in the project root and run:
+---
+
+## 🛠️ Суулгах заавар (Installation)
+
+### 1. Урьдчилсан нөхцөл
+Таны компьютерт **Node.js** (v18 эсвэл түүнээс дээш) суусан байх шаардлагатай.
+
+### 2. Сангуудыг суулгах
+Терминал дээр төслийн үндсэн хавтсанд очиж дараах командыг ажиллуулна:
 ```bash
 npm install
 ```
 
-### 3. Database Setup
-The project uses SQLite. Initialize the database and generate the Prisma client:
+### 3. Өгөгдлийн сан (Database)
+SQLite ашиглаж байгаа тул өгөгдлийн санг үүсгэж, Prisma client-ийг бэлтгэнэ:
 ```bash
 npx prisma generate
 npx prisma db push
@@ -30,53 +34,48 @@ npx prisma db push
 
 ---
 
-## 🏃 How to Run the Application
+## 🏃 Ажиллуулах заавар (How to Run)
 
-This project is designed to run the **Client Website** and **Admin Dashboard** on separate ports simultaneously.
+Энэхүү төсөл нь хэрэглэгчийн вэб болон админ хэсгийг тусдаа портууд дээр зэрэг ажиллуулах зориулалттай.
 
-### Option A: Run Both (Recommended for Development)
-To avoid file locking errors (`EBUSY`), use the following commands in **two separate terminal windows**:
+### Хэрэглэгчийн вэб болон Админыг зэрэг ажиллуулах:
+Файл түгжигдэх алдаанаас (`EBUSY`) сэргийлэхийн тулд **хоёр тусдаа** терминал дээр ажиллуулна уу:
 
-**Terminal 1: Client Website (Port 3000)**
-```powershell
-$env:NEXT_DIST_DIR=".next-web"; npm run dev
-```
-*Access at: [http://localhost:3000](http://localhost:3000)*
-
-**Terminal 2: Admin Dashboard (Port 3001)**
-```powershell
-$env:NEXT_DIST_DIR=".next-admin"; npx next dev -p 3001
-```
-*Access at: [http://localhost:3001](http://localhost:3001)*
-
-> **Note for CMD users:** If you are using Command Prompt instead of PowerShell, use `set NEXT_DIST_DIR=.next-web && npm run dev` instead.
-
-### Option B: Run Standard
-If you only need the main website:
+**Терминал 1: Хэрэглэгчийн вэб (Port 3000)**
 ```bash
-npm run dev
+npm run dev:web
 ```
+*Хаяг: [http://localhost:3000](http://localhost:3000)*
+
+**Терминал 2: Админ удирдлага (Port 3001)**
+```bash
+npm run dev:admin
+```
+*Хаяг: [http://localhost:3001](http://localhost:3001)*
 
 ---
 
-## 📂 Project Structure
-- `/app`: Next.js App Router (Pages & API Routes)
-- `/src/components`: Reusable UI components
-- `/src/styles`: Page-specific CSS files
-- `/public`: Static assets (Images, Icons)
-- `/prisma`: Database schema and migrations
+## 📂 Төслийн бүтэц (Project Structure)
+
+- `/app`: Next.js App Router (Хуудаснууд болон API)
+- `/src/components`: Дахин ашиглагдах UI компонентууд
+- `/src/styles`: CSS загварын файлууд
+- `/public`: Зураг болон статик файлууд
+- `/prisma`: Өгөгдлийн сангийн схем
 
 ---
 
-## 🔑 Key Features
-- **Booking Engine:** Real-time price calculation based on check-in/out dates.
-- **Admin Dashboard:** Manage rooms, restaurant menu, and horse riding activities.
-- **Image Upload:** Upload images directly from the Admin panel.
-- **Order Tracking:** Customers can track their orders using an ID (e.g., ORD-1).
-- **Dark/Light Mode:** Full theme support across all pages.
+## 🔑 Үндсэн боломжууд (Key Features)
+
+- **Booking System:** Өрөө захиалгын систем (Check-in/out).
+- **Experiences:** Морь унах, ресторан, аялал захиалга.
+- **Admin Dashboard:** Өрөө, цэс, үйлчилгээ болон захиалгыг удирдах хэсэг.
+- **Modern UI:** Next.js 15, Tailwind CSS ашигласан хурдан бөгөөд загварлаг интерфэйс.
+- **Infrastructure:** Starlink интернэт, Спортын талбай зэрэг нэмэлт мэдээлэл бүхий хэсгүүд.
 
 ---
 
-## ⚠️ Troubleshooting
-- **EBUSY Error:** If you see "resource busy or locked", ensure no other terminal is running the app and delete the `.next`, `.next-web`, or `.next-admin` folders manually.
-- **OneDrive Sync:** If the project is in a OneDrive folder, sync issues can cause file locking. Pause OneDrive syncing if errors persist.
+## ⚠️ Анхааруулга (Notes)
+
+- **EBUSY Error:** Хэрэв "resource busy" гэсэн алдаа гарвал `.next`, `.next-web`, эсвэл `.next-admin` хавтаснуудыг устгаад дахин ажиллуулна уу.
+- **Database:** `prisma/dev.db` файл дотор таны бүх өгөгдөл хадгалагдах тул устгаж болохгүй.
