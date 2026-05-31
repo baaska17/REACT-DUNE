@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const NAV_ITEMS = [
   { href: '/',           icon: '🏠', labelEN: 'Home',       labelMN: 'Нүүр' },
@@ -13,6 +14,7 @@ const NAV_ITEMS = [
 export default function BottomNav() {
   const pathname = usePathname();
   const { cartCount, setIsCartOpen } = useCart();
+  const { t } = useLanguage();
 
   return (
     <nav className="bottom-nav" aria-label="Mobile navigation">
@@ -44,7 +46,7 @@ export default function BottomNav() {
             </span>
           )}
         </span>
-        <span className="bottom-nav-label">Cart</span>
+        <span className="bottom-nav-label">{t.nav.Cart}</span>
       </button>
     </nav>
   );

@@ -8,90 +8,116 @@ import { useCart } from '@/src/context/CartContext';
 import { useLanguage } from '@/src/context/LanguageContext';
 import CommentSection from '@/src/components/CommentSection';
 
+const TIME_SLOTS = ['09:00', '11:00', '13:00', '15:00', '17:00'];
+
 export default function HorseRidePage() {
   const router = useRouter();
   const { addToCart } = useCart();
   const { t } = useLanguage();
 
-  const [peopleCount, setPeopleCount] =
-    useState(1);
+  const [peopleCount, setPeopleCount] = useState(1);
+  const [selectedExperience, setSelectedExperience] = useState(null);
+  const [experiences, setExperiences] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedTime, setSelectedTime] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const [
-    selectedExperience,
-    setSelectedExperience,
-  ] = useState(null);
-
-  const [experiences, setExperiences] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  /*
-  ========================================
-  FETCH ADVENTURES
-  ========================================
-  */
-
+  // Morin aylaliig fetch hiih
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(
-          '/api/adventures'
-        );
-
+        const res = await fetch('/api/adventures');
         const data = await res.json();
-
         setExperiences(data);
-
-        if (data.length > 0) {
-          setSelectedExperience(data[0]);
-        }
       } catch (error) {
         console.error(error);
       } finally {
         setLoading(false);
       }
     }
-
     fetchData();
   }, []);
 
-  // useMemo — нийт үнийг peopleCount өөрчлөгдөхөд л дахин тооцно
-  // Lecture: "useMemo: only recalculates when deps change"
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const res = await fetch('/api/orders');
+        const data = await res.json();
+        setOrders(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchOrders();
+  }, []);
+
+  const reservedTimes = useMemo(() => {
+    if (!selectedExperience || !selectedDate) return new Set();
+
+    const reserved = new Set();
+
+    orders.forEach((order) => {
+      if (order.status === 'CANCELLED') return;
+      (order.items || []).forEach((item) => {
+        if (
+          item.itemType === 'ADVENTURE' &&
+          item.itemId === selectedExperience.id &&
+          item.checkin === selectedDate &&
+          item.checkout
+        ) {
+          reserved.add(item.checkout);
+        }
+      });
+    });
+
+    return reserved;
+  }, [orders, selectedExperience, selectedDate]);
+
+  const availableTimes = useMemo(
+    () => TIME_SLOTS.filter((slot) => !reservedTimes.has(slot)),
+    [reservedTimes]
+  );
+
+  useEffect(() => {
+    if (availableTimes.length === 0) {
+      setSelectedTime('');
+      return;
+    }
+    if (!availableTimes.includes(selectedTime)) {
+      setSelectedTime(availableTimes[0]);
+    }
+  }, [availableTimes, selectedTime]);
+
+  // useMemo — Niit uniig peaple count oorchlogdohod l dahin bodno
   const totalPrice = useMemo(
     () => (selectedExperience?.price || 0) * peopleCount,
     [selectedExperience, peopleCount]
   );
 
-  /*
-  ========================================
-  ADD TO CART
-  useCallback — функцийн reference тогтворжуулна
-  Lecture: "useCallback: memoize a function reference"
-  ========================================
-  */
+ 
+  //ADD TO CART
+  //useCallback — функцийн reference тогтворжуулна
 
   const handleAddToCart = useCallback(() => {
-    if (!selectedExperience) return;
+    if (!selectedExperience || !selectedTime) return;
 
     addToCart({
       ...selectedExperience,
-
       type: 'ADVENTURE',
-
       title: `${selectedExperience.title} (${peopleCount} People)`,
-
       price: totalPrice,
-
       quantity: 1,
+      bookingDates: {
+        checkin: selectedDate,
+        checkout: selectedTime,
+        time: selectedTime,
+      },
     });
-  }, [selectedExperience, peopleCount, totalPrice, addToCart]);
+  }, [selectedExperience, peopleCount, totalPrice, selectedDate, selectedTime, addToCart]);
 
   /*
-  ========================================
-  BOOK NOW
-  ========================================
+  BOOK NOW - Add to cart hiih function duudaj baigaa, daraa нь checkout руу yvuulna
   */
 
   const handleBookNow = useCallback(() => {
@@ -103,9 +129,7 @@ export default function HorseRidePage() {
   }, [selectedExperience, handleAddToCart, router]);
 
   /*
-  ========================================
-  LOADING
-  ========================================
+  LOADING-Backend ees data avaad irtel haragdana.
   */
 
   if (loading)
@@ -116,9 +140,7 @@ export default function HorseRidePage() {
     );
 
   /*
-  ========================================
-  RENDER
-  ========================================
+  RENDER-Undsen UI. Experience songoogui bol button haana. Comment sectioniig zowhon experience songogdson uyd harulna.
   */
 
   return (
@@ -373,6 +395,37 @@ export default function HorseRidePage() {
                     )}
                   </div>
 
+                  <div className="form-group">
+                    <label>{t.horse.dateLabel}</label>
+                    <input
+                      type="date"
+                      min={new Date().toISOString().split('T')[0]}
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>{t.horse.timeLabel}</label>
+                    <select
+                      value={selectedTime}
+                      onChange={(e) => setSelectedTime(e.target.value)}
+                      disabled={availableTimes.length === 0}
+                    >
+                      <option value="">{t.horse.chooseTimeSlot}</option>
+                      {availableTimes.map((slot) => (
+                        <option key={slot} value={slot}>
+                          {slot}
+                        </option>
+                      ))}
+                    </select>
+                    {availableTimes.length === 0 && (
+                      <p className="help-text">
+                        {t.horse.noTimesAvailable}
+                      </p>
+                    )}
+                  </div>
+
                   {/* PRICE */}
 
                   <div className="price-summary">
@@ -390,12 +443,8 @@ export default function HorseRidePage() {
                   <div className="booking-actions">
                     <button
                       className="btn-gold booking-btn"
-                      onClick={
-                        handleAddToCart
-                      }
-                      disabled={
-                        !selectedExperience
-                      }
+                      onClick={handleAddToCart}
+                      disabled={!selectedExperience || !selectedTime}
                     >
                       {t.common.addToCart}
                     </button>
@@ -403,7 +452,7 @@ export default function HorseRidePage() {
                     <button
                       className="btn-gold booking-btn"
                       onClick={handleBookNow}
-                      disabled={!selectedExperience}
+                      disabled={!selectedExperience || !selectedTime}
                     >
                       {t.common.payNow}
                     </button>

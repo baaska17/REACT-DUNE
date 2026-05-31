@@ -193,12 +193,23 @@
 .exp-card {
     background: var(--card-bg);
     border-radius: var(--r-md);
-    border: 2px solid transparent;
+    border: 2px solid rgba(var(--primary-rgb), 0.15);
     transition: all 0.3s ease;
     cursor: pointer;
     text-align: left;
     display: flex;
     overflow: hidden;
+}
+
+.exp-card:hover {
+    border-color: var(--primary);
+}
+
+.exp-card:active {
+    background: var(--primary);
+    transform: perspective(600px) translateY(2px) translateX(2px) scale(0.98);
+    box-shadow: none;
+    color: #fff;
 }
 
 .exp-image-side {
@@ -303,14 +314,14 @@
 }
 
 .booking-sidebar {
-    position: sticky;
-    top: 5.5rem;
-
+    margin-top: 8rem;   
     align-self: start;
-    height: fit-content;
+    width: 100%;
 }
 
 .booking-card {
+    position: sticky;
+    top: 5.5rem;
     background: var(--card-bg);
     padding: 1.5rem;
     border-radius: var(--r-md);
@@ -383,7 +394,6 @@
 @media (max-width: 64rem) {
     .quick-info-grid { grid-template-columns: repeat(3, 1fr); margin-top: 1.5rem; }
     .selection-booking-grid { grid-template-columns: 1fr; }
-    .booking-sidebar { position: static; }
     .horse-hero h1 { font-size: 2.5rem; }
 }
 
@@ -416,7 +426,7 @@
 
     /* Booking sidebar: not sticky on mobile */
     .booking-sidebar { position: static; }
-    .booking-card { padding: 1rem; border-radius: 12px; }
+    .booking-card { position: static; padding: 1rem; border-radius: 12px; }
     .booking-card h3 { font-size: 1.3rem; margin-bottom: 0.75rem; }
     .booking-actions { flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
     .booking-btn { width: 100%; text-align: center; justify-content: center; }

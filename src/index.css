@@ -1,14 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-/* 
-   =========================================
-   1. CSS CUSTOM PROPERTIES
-   ========================================= 
-*/
 /*
    =========================================
    DESIGN TOKEN SYSTEM
-   Лекц: CSS Custom Properties — single source of truth
    Нэг token өөрчлөхөд бүх сайт автоматаар өөрчлөгдөнө
    =========================================
 */
@@ -61,7 +55,6 @@
     --text-primary:   #1a1a1a;
     --text-secondary: #666666;
     --border-color:   rgba(0, 0, 0, 0.08);
-    --card-bg:        #ffffff;
 
     /* ── Max width ── */
     --max-w: 100%;
@@ -100,22 +93,11 @@
 */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
 
-/* Selection color — brand token ашиглана */
 ::selection {
     background: rgba(var(--primary-rgb), 0.22);
     color: inherit;
 }
-
-/* Thin gold scrollbar */
-::-webkit-scrollbar       { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-    background: rgba(var(--primary-rgb), 0.5);
-    border-radius: var(--r-pill);
-}
-::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 body {
     background-color: var(--bg-primary);
@@ -398,6 +380,7 @@ body {
 
     /* Header-т "Book Now" товчийг нуух — bottom nav хангана */
     .book-now-btn { display: none !important; }
+
 
     /* Header padding бага */
     .header { padding: 0 1rem; }

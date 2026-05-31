@@ -7,10 +7,12 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useLanguage } from '../context/LanguageContext';
 
 function BookingFormContent() {
   const router = useRouter(); // Хуудас шилжүүлэх (navigation)
   const searchParams = useSearchParams(); // URL-аас одоо байгаа огноонуудыг унших
+  const { t } = useLanguage();
 
   // Формын утгуудыг хадгалах state (анхны утгыг URL эсвэл өнөөдрийн огноогоор авна)
   const [dates, setDates] = useState({
@@ -88,8 +90,7 @@ function BookingFormContent() {
         onClick={handleSearch}
         className="booking-search-btn-gold"
         style={{ width: '100%', border: 'none', cursor: 'pointer' }}
-      >
-        Update Search
+      >{t.common.searchBtn}
       </button>
     </div>
   );

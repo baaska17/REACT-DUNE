@@ -1,6 +1,7 @@
 'use client'; // Next.js-ийн Client Component гэдгийг тодорхойлно. Хэрэглэгчийн талд ажиллах React hook-үүд ашиглах боломжийг олгоно.
 import { useState } from 'react'; // Төлөв (state) удирдах React hook.
 import Link from 'next/link'; // Хуудас хооронд шилжих компонент.
+import { useLanguage } from '../context/LanguageContext';
 
 // Галерейд харагдах мэдээллүүдийн жагсаалт (Array).
 const PANELS = [
@@ -34,13 +35,18 @@ const AccordionGallery = () => {
   // activeIndex: Одоо хулгана дээр нь байгаа картын дугаарыг (index) хадгалах төлөв.
   // Анхны утга нь null буюу ямар ч карт идэвхжээгүй байна.
   const [activeIndex, setActiveIndex] = useState(null);
+  const { t } = useLanguage();
 
   return (
     <div className="discovery-content">
       {/* Хэсгийн толгой мэдээлэл: Жижиг гарчиг болон үндсэн гарчиг */}
       <div className="discovery-header">
-        <p className="discovery-eyebrow">Our Top Experiences</p>
-        <h2 className="discovery-title">Discover the Best<br />of Dune Camp</h2>
+        <p className="discovery-eyebrow">{t.home.topExperiences}</p>
+        <h2 className="discovery-title">
+          {t.home.discoverTitleLine1}
+          <br />
+          {t.home.discoverTitleLine2}
+        </h2>
       </div>
 
       {/* Аккордион галерейн үндсэн контейнер */}

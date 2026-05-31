@@ -87,9 +87,11 @@ const CartDrawer = () => {
                         <p className="item-price">
                           {item.quantity} × ₮{item.price.toLocaleString()}
                         </p>
-                        {item.type === 'ROOM' && item.bookingDates?.checkin && (
+                        {(item.type === 'ROOM' || item.type === 'ADVENTURE') && item.bookingDates?.checkin && (
                           <p className="cart-item-meta">
-                            📅 {item.bookingDates.checkin} → {item.bookingDates.checkout}
+                            {item.type === 'ROOM'
+                              ? `📅 ${item.bookingDates.checkin} → ${item.bookingDates.checkout}`
+                              : `📅 ${item.bookingDates.checkin} · ${item.bookingDates.time || item.bookingDates.checkout}`}
                           </p>
                         )}
                       </div>

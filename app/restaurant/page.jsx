@@ -163,11 +163,11 @@ export default function RestaurantPage() {
                             📏 {item.size}
                           </span>
                         )}
-                        <span className={`meta-badge ${outOfStock ? 'meta-badge--empty' : 'meta-badge--stock'}`}>
-                          {outOfStock
-                            ? (lang === 'MN' ? 'Дууссан' : 'Out of stock')
-                            : (lang === 'MN' ? `${item.stock} ш үлдсэн` : `${item.stock} left`)}
-                        </span>
+                        {outOfStock && (
+                          <span className="meta-badge meta-badge--empty">
+                            {lang === 'MN' ? 'Дууссан' : 'Out of stock'}
+                          </span>
+                        )}
                       </div>
 
                       <div className="menu-footer">

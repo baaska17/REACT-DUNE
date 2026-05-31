@@ -55,42 +55,37 @@ const Header = () => {
 
       {/* Үндсэн навигацийн цэс */}
       <nav className={`main-nav${isMenuOpen ? ' mobile-open' : ''}`}>
-        <ul>
-          <li><Link href="/"           className={isActive('/')}           onClick={closeMenu}>{t.nav.home}</Link></li>
-          <li><Link href="/horse"      className={isActive('/horse')}      onClick={closeMenu}>{t.nav.horse}</Link></li>
-          <li><Link href="/restaurant" className={isActive('/restaurant')} onClick={closeMenu}>{t.nav.restaurant}</Link></li>
-          <li><Link href="/rooms"      className={isActive('/rooms')}      onClick={closeMenu}>{t.nav.rooms}</Link></li>
-          <li><Link href="/order-track" className={isActive('/order-track')} onClick={closeMenu}>{t.nav.trackOrder}</Link></li>
+        <div className="nav-links">
+          <Link href="/" className={`nav-link ${isActive('/')}`} onClick={closeMenu}>{t.nav.home}</Link>
+          <Link href="/horse" className={`nav-link ${isActive('/horse')}`} onClick={closeMenu}>{t.nav.horse}</Link>
+          <Link href="/restaurant" className={`nav-link ${isActive('/restaurant')}`} onClick={closeMenu}>{t.nav.restaurant}</Link>
+          <Link href="/rooms" className={`nav-link ${isActive('/rooms')}`} onClick={closeMenu}>{t.nav.rooms}</Link>
+          <Link href="/order-track" className={`nav-link ${isActive('/order-track')}`} onClick={closeMenu}>{t.nav.trackOrder}</Link>
           {isAdminPort && (
-            <li>
-              <Link href="/admin" className={isActive('/admin')} onClick={closeMenu}
-                style={{ color: 'var(--primary)', fontWeight: 'bold' }}>
-                Admin
-              </Link>
-            </li>
+            <Link href="/admin" className={`nav-link admin-link ${isActive('/admin')}`} onClick={closeMenu}>
+              Admin
+            </Link>
           )}
-        </ul>
+        </div>
       </nav>
 
       {/* Баруун талын хэрэгслүүд */}
       <div className="header-right">
-        {/* Хэл солих (EN/MN) */}
-        <div className="lang-switch">
+        <div className="lang-switch desktop-only">
           <button className={lang === 'EN' ? 'active' : ''} onClick={() => setLang('EN')}>EN</button>
           <button className={lang === 'MN' ? 'active' : ''} onClick={() => setLang('MN')}>MN</button>
         </div>
 
-        {/* Theme солих (☀️/🌙) */}
         <button className="theme-toggle" onClick={toggleTheme} title={isDark ? 'Light mode' : 'Dark mode'}>
           {isDark ? '☀️' : '🌙'}
         </button>
 
-        {/* Сагсны дүрс ба тоолуур */}
-        <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
-          🛒 <span className="cart-badge" suppressHydrationWarning>{cartCount}</span>
-        </div>
+        <button className="cart-button" onClick={() => setIsCartOpen(true)} aria-label="Open cart">
+          <span className="cart-icon">🛒</span>
+          <span className="cart-text">{t.nav.Cart}</span>
+          <span className="cart-badge" suppressHydrationWarning>{cartCount}</span>
+        </button>
 
-        {/* Шууд захиалах товч */}
         <Link href="/rooms" className="book-now-btn btn-gold">
           {t.nav.bookNow}
         </Link>

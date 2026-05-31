@@ -13,6 +13,7 @@ const translations = {
       rooms:       'Rooms',
       trackOrder:  'Track Order',
       bookNow:     'Book Now',
+      Cart:        'Cart',
     },
 
     // Common
@@ -37,6 +38,7 @@ const translations = {
       children:    'Children',
       nights:      'night',
       nightsPlural:'nights',
+      searchBtn:   'Search',
     },
 
     // Home page
@@ -63,6 +65,9 @@ const translations = {
       confirm:        '✓ Instant confirmation',
       support:        '✓ 24/7 support',
       bestPrice:      '✓ Best price guarantee',
+      topExperiences: 'Our Top Experiences',
+      discoverTitleLine1: 'Discover the Best',
+      discoverTitleLine2: 'of Dune Camp',
     },
 
     // Horse page
@@ -85,6 +90,10 @@ const translations = {
       safety3:        'Please wear comfortable clothing and closed-toe shoes',
       safety4:        'Helmets are provided and must be worn',
       bookYourRide:    'Book Your Ride',
+      dateLabel:      'Select Date',
+      timeLabel:      'Select Time',
+      chooseTimeSlot: 'Choose time slot',
+      noTimesAvailable: 'No time slots available',
       maxPeople:       'Max',
       maxWarningPre:   '* Sorry, max',
       maxWarningSuf:   'people at a time.',
@@ -153,6 +162,7 @@ const translations = {
       rooms:       'Өрөөнүүд',
       trackOrder:  'Захиалга хянах',
       bookNow:     'Захиалах',
+      Cart:        'Сагс',
     },
 
     common: {
@@ -172,10 +182,11 @@ const translations = {
       checkIn:     'Ирэх өдөр',
       checkOut:    'Гарах өдөр',
       guests:      'Зочдын тоо',
-      adults:      'Насанд хүрэгчид',
+      adults:      'Хүн',
       children:    'Хүүхэд',
       nights:      'шөнө',
       nightsPlural:'шөнө',
+      searchBtn:   'Хайх',
     },
 
     home: {
@@ -201,6 +212,9 @@ const translations = {
       confirm:        '✓ Шуурхай баталгаажуулалт',
       support:        '✓ 24/7 дэмжлэг',
       bestPrice:      '✓ Хамгийн сайн үнийн баталгаа',
+      topExperiences: 'Манай шилдэг үйлчилгээнүүд',
+      discoverTitleLine1: 'Dune ресортын шилдэг',
+      discoverTitleLine2: 'үйлчилгээг аваарай',
     },
 
     horse: {
@@ -222,6 +236,10 @@ const translations = {
       safety3:        'Тав тухтай хувцас, хаалттай гутал өмсөөрэй',
       safety4:        'Дуулга өгөгдөх ба заавал зүүх ёстой',
       bookYourRide:    'Унаагаа захиалаарай',
+      dateLabel:      'Огноо сонгох',
+      timeLabel:      'Цаг сонгох',
+      chooseTimeSlot: 'Цагийн сонголт',
+      noTimesAvailable: 'Цагийн сонголт байхгүй байна',
       maxPeople:       'Хамгийн ихдээ',
       maxWarningPre:   '* Уучлаарай, нэг удаадаа дээд тал нь',
       maxWarningSuf:   'хүн авах боломжтой.',
@@ -248,7 +266,7 @@ const translations = {
       roomDetails:    'Дэлгэрэнгүй',
       breakfastBadge: 'Өглөөний цай багтсан',
       maxAdults:      'Хамгийн ихдээ',
-      adultsLabel:    'насанд хүрэгч',
+      adultsLabel:    'Хүн',
     },
 
     orderTrack: {
