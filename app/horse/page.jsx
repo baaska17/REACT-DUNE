@@ -15,7 +15,7 @@ export default function HorseRidePage() {
   const { addToCart } = useCart();
   const { t } = useLanguage();
 
-  const [peopleCount, setPeopleCount] = useState(1);
+  const [peopleCount, setPeopleCount] = useState(0);
   const [selectedExperience, setSelectedExperience] = useState(null);
   const [experiences, setExperiences] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -39,6 +39,8 @@ export default function HorseRidePage() {
     fetchData();
   }, []);
 
+  //Zahialgiin medeelel fetch
+
   useEffect(() => {
     async function fetchOrders() {
       try {
@@ -51,6 +53,8 @@ export default function HorseRidePage() {
     }
     fetchOrders();
   }, []);
+
+  //Zahialsan tsag tootsoh logic
 
   const reservedTimes = useMemo(() => {
     if (!selectedExperience || !selectedDate) return new Set();
@@ -74,6 +78,9 @@ export default function HorseRidePage() {
     return reserved;
   }, [orders, selectedExperience, selectedDate]);
 
+
+  //Zahialgagui tsag bodoh
+
   const availableTimes = useMemo(
     () => TIME_SLOTS.filter((slot) => !reservedTimes.has(slot)),
     [reservedTimes]
@@ -89,7 +96,7 @@ export default function HorseRidePage() {
     }
   }, [availableTimes, selectedTime]);
 
-  // useMemo — Niit uniig peaple count oorchlogdohod l dahin bodno
+  // useMemo — Niit uniig people count oorchlogdohod l dahin bodno
   const totalPrice = useMemo(
     () => (selectedExperience?.price || 0) * peopleCount,
     [selectedExperience, peopleCount]
@@ -97,7 +104,6 @@ export default function HorseRidePage() {
 
  
   //ADD TO CART
-  //useCallback — функцийн reference тогтворжуулна
 
   const handleAddToCart = useCallback(() => {
     if (!selectedExperience || !selectedTime) return;
@@ -117,7 +123,7 @@ export default function HorseRidePage() {
   }, [selectedExperience, peopleCount, totalPrice, selectedDate, selectedTime, addToCart]);
 
   /*
-  BOOK NOW - Add to cart hiih function duudaj baigaa, daraa нь checkout руу yvuulna
+  BOOK NOW - Add to cart hiih function duudaj baigaa, daraa ni checkout ruu yvuulna
   */
 
   const handleBookNow = useCallback(() => {
@@ -239,16 +245,9 @@ export default function HorseRidePage() {
                   <div
                     key={exp.id}
                     className={`exp-card ${
-                      selectedExperience?.id ===
-                      exp.id
-                        ? 'active'
-                        : ''
+                      selectedExperience?.id === exp.id ? 'active' : ''
                     }`}
-                    onClick={() =>
-                      setSelectedExperience(
-                        exp
-                      )
-                    }
+                    onClick={() => setSelectedExperience(exp)}
                   >
                     <div className="exp-image-side">
                       <img

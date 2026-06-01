@@ -9,10 +9,7 @@ import React, {
   useState,
 } from 'react';
 
-// ============================================================
 // REDUCER — useReducer-ийн үндсэн logic
-// Lecture: "useReducer: for complex state with multiple actions"
-// ============================================================
 function cartReducer(state, action) {
   switch (action.type) {
     // localStorage-аас ачаалах — LOAD action

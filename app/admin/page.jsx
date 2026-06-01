@@ -192,11 +192,17 @@ export default function AdminPage() {
       setComments(Array.isArray(commentData) ? commentData : []);
 
       const totalSales = Array.isArray(orderData)
-        ? orderData.reduce((sum, o) => sum + o.totalAmount, 0) : 0;
+        ? orderData.reduce((sum, o) => {
+            const amount = parseFloat(o.totalAmount) || 0;
+            return isNaN(sum) ? amount : sum + amount;
+          }, 0) : 0;
       const pendingOrders = Array.isArray(orderData)
         ? orderData.filter((o) => o.status === 'PENDING').length : 0;
+      const totalItems = (Array.isArray(roomData) ? roomData.length : 0) + 
+                        (Array.isArray(foodData) ? foodData.length : 0) + 
+                        (Array.isArray(adventureData) ? adventureData.length : 0);
 
-      setStats({ totalSales, pendingOrders, totalItems: roomData.length + foodData.length + adventureData.length });
+      setStats({ totalSales: isNaN(totalSales) ? 0 : totalSales, pendingOrders, totalItems });
     } catch (e) { console.error(e); }
   };
 
@@ -296,12 +302,31 @@ export default function AdminPage() {
 
   const submitFood = async (e) => {
     e.preventDefault();
-    const image    = imageFile ? await uploadImage() : foodForm.image;
-    const category = Array.isArray(foodForm.category) ? foodForm.category.join(',') : foodForm.category;
-    const url      = editingFood ? `/api/foods/${editingFood.id}` : '/api/foods';
-    const method   = editingFood ? 'PUT' : 'POST';
-    const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...foodForm, image, category }) });
-    if (res.ok) { cancelEditFood(); fetchData(); }
+    try {
+      if (!foodForm.title.trim()) {
+        alert('দুঃখিত, খাদ্য নাম আবশ্যক');
+        return;
+      }
+      if (!foodForm.price || isNaN(foodForm.price) || foodForm.price <= 0) {
+        alert('দুঃখিত, বৈধ মূল্য প্রবেশ করুন');
+        return;
+      }
+      const image    = imageFile ? await uploadImage() : foodForm.image;
+      const category = Array.isArray(foodForm.category) ? foodForm.category.join(',') : foodForm.category;
+      const url      = editingFood ? `/api/foods/${editingFood.id}` : '/api/foods';
+      const method   = editingFood ? 'PUT' : 'POST';
+      const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...foodForm, image, category, price: parseFloat(foodForm.price) }) });
+      if (res.ok) { 
+        cancelEditFood(); 
+        fetchData(); 
+      } else {
+        const error = await res.json();
+        alert(`त्रुटि: ${error.error || 'खाद्य सहेजने में विफल'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('त्रुटि: ' + err.message);
+    }
   };
 
   const submitAdventure = async (e) => {
