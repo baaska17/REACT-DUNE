@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "dev:web": "NEXT_DIST_DIR=.next-web next dev",
-    "dev:admin": "NEXT_DIST_DIR=.next-admin next dev -p 3001",
+    "dev:web": "cross-env NEXT_DIST_DIR=.next-web next dev",
+    "dev:admin": "cross-env NEXT_DIST_DIR=.next-admin next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5"
   }
