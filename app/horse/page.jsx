@@ -29,7 +29,10 @@ export default function HorseRidePage() {
       try {
         const res = await fetch('/api/adventures');
         const data = await res.json();
-        setExperiences(data);
+        setExperiences(Array.isArray(data) ? data : []);
+        if (!Array.isArray(data)) {
+          console.warn('Unexpected adventures payload:', data);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -241,7 +244,7 @@ export default function HorseRidePage() {
               {/* EXPERIENCE LIST */}
 
               <div className="experience-list">
-                {experiences.map((exp) => (
+                {(Array.isArray(experiences) ? experiences : []).map((exp) => (
                   <div
                     key={exp.id}
                     className={`exp-card ${
