@@ -2,13 +2,7 @@
 
 import { useState, useCallback } from 'react';
 
-/*
-========================================
-PURE HELPERS — component-аас гадна тодорхойлно
-State ашиглахгүй тул дахин render-д шинэ функц үүсгэхгүй
-Lecture: "Pure functions — same input, same output, no side effects"
-========================================
-*/
+
 const STATUS_LABELS = {
   PENDING:   'Pending',
   CONFIRMED: 'Confirmed',
@@ -37,13 +31,7 @@ export default function OrderTrackPage() {
   const [searched, setSearched]         = useState(false);
   const [loading, setLoading]           = useState(false);
 
-  /*
-  ========================================
-  SEARCH ORDER
-  useCallback — функцийн reference тогтворжуулна
-  Lecture: "useCallback: memoize a function reference"
-  ========================================
-  */
+
   const handleSearch = useCallback(async () => {
     // "DUNE-42" → "42" гэж prefix арилгана
     const cleanId = trackingCode.replace('DUNE-', '').trim();
