@@ -1,9 +1,3 @@
-/**
- * Нүүр хуудас (Home Page) - Baaska
- * Энэ хуудас нь вэбсайтын үндсэн нүүр хэсэг бөгөөд Hero section,
- * Үйлчилгээнүүдийн галерей, Захиалгын форм зэргийг агуулна.
- */
-
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AccordionGallery from '../src/components/AccordionGallery';
@@ -13,12 +7,10 @@ export default async function Home() {
   // HTTP headers-аас домэйн нэрийг авч байна
   const headersList = await headers();
   const host = headersList.get('host') || '';
-  
   // Хэрэв 3001 порт дээр (Админ порт) орж ирвэл шууд Админ руу шилжүүлнэ
   if (host.includes(':3001')) {
     redirect('/admin');
   }
-
   return (
     <div className="home-page">
       {/* 1. HERO SECTION: Видео фон болон үндсэн гарчиг */}
@@ -32,7 +24,6 @@ export default async function Home() {
             title="Dune Tourist Camp"
           />
         </div>
-
         {/* Видеон дээрх текстийг уншигдахуйц болгох харанхуй давхарга */}
         <div className="hero-overlay" />
 
@@ -42,14 +33,12 @@ export default async function Home() {
           <h1>Authentic Nomadic Luxury</h1>
           <p className="tagline">Where tradition meets timeless luxury</p>
         </div>
-
         {/* Доошоо гүйлгэхийг сануулах сум */}
         <div className="hero-scroll-hint">
           <span className="hero-scroll-label">Our Top Experiences</span>
           <div className="hero-scroll-arrow">↓</div>
         </div>
       </section>
-
       {/* 2. DISCOVERY & BOOKING: Галерей болон Захиалгын хэсэг */}
       <section className="discovery-booking-wrapper">
         <div className="container combined-container">
@@ -57,7 +46,7 @@ export default async function Home() {
           <div className="discovery-side">
             <AccordionGallery />
           </div>
-          
+    
           {/* Баруун тал: Шууд захиалга өгөх босоо форм */}
           <div className="booking-side">
             <div className="booking-card vertical-booking">

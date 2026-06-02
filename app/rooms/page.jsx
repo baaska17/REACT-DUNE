@@ -1,9 +1,3 @@
-/**
- * Өрөөнүүдийн жагсаалт хуудас (Rooms Page) - Baaska
- * Энэ хуудас нь боломжтой бүх байрнуудыг харуулж, огноогоор шүүх,
- * үлдэгдэл шалгах болон сагсанд нэмэх үйлдлүүдийг гүйцэтгэнэ.
- */
-
 'use client';
 
 import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
